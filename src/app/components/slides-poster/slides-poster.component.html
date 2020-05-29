@@ -1,0 +1,7 @@
+<ion-slides [options]="slideOpts">
+  <ion-slide *ngFor="let movie of movies">
+    <ion-card>
+      <img class="poster" [src]="movie.poster_path | image">
+    </ion-card>
+  </ion-slide>
+</ion-slides>

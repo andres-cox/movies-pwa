@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MoviesAPIService } from '../services/movies-api.service';
+import { ResultsTMDb, Movie } from '../interfaces/interfaces';
 
 @Component({
   selector: 'app-tab1',
@@ -8,8 +9,25 @@ import { MoviesAPIService } from '../services/movies-api.service';
 })
 export class Tab1Page implements OnInit {
 
+  popularMovies: Movie[] = [];
+  popularTVShows: Movie[] = [];
+  netflixMovies: Movie[] = [];
   constructor(private moviesService: MoviesAPIService) { }
   ngOnInit() {
-    this.moviesService.getFeature().subscribe(console.log);
+    this.moviesService.getPopularMovies()
+      .subscribe((res: ResultsTMDb) => {
+        this.popularMovies = res.results;
+      });
+
+    this.moviesService.getPopularTVShows()
+      .subscribe((res: ResultsTMDb) => {
+        this.popularTVShows = res.results;
+        //console.log(this.recentMovies);
+      });
+    this.moviesService.getNetflix()
+      .subscribe((res: ResultsTMDb) => {
+        this.netflixMovies = res.results;
+        //console.log(this.recentMovies);
+      });
   }
 }
