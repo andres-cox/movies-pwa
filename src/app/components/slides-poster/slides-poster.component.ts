@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Movie } from 'src/app/interfaces/interfaces';
+import { ModalController } from '@ionic/angular';
+import { DetailsComponent } from '../details/details.component';
 
 @Component({
   selector: 'app-slides-poster',
@@ -12,9 +14,33 @@ export class SlidesPosterComponent implements OnInit {
   }
 
   @Input() movies: Movie[] = [];
+  @Output() loadMore = new EventEmitter();
 
-  constructor() { }
 
-  ngOnInit() { }
+  constructor(private modalController: ModalController) { }
+
+  ngOnInit(
+  ) {
+    console.log(this.movies);
+
+  }
+
+  onClick() {
+    this.loadMore.emit();
+  }
+
+  async searchDetails(id: string) {
+
+    const modal = await this.modalController.create({
+      component: DetailsComponent,
+      componentProps: {
+        id
+      }
+    });
+
+    modal.present();
+
+  }
+
 
 }

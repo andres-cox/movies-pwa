@@ -7,7 +7,7 @@
     </ion-row>
   </ion-grid>
 
-  <app-slides-poster [movies]="popularMovies"></app-slides-poster>
+  <app-slides-poster [movies]="popularMovies" (loadMore)="loadMore()"></app-slides-poster>
 
   <ion-grid fixed>
     <ion-row>
