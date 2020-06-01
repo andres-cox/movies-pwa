@@ -67,6 +67,10 @@ interface Productioncompany {
     origin_country: string;
 }
 
+export interface ResultGenres {
+    genres: Genre[];
+}
+
 export interface Genre {
     id: number;
     name: string;

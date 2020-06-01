@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ResultsTMDb, MovieDetails, CreditsResponse } from '../interfaces/interfaces';
+import { ResultsTMDb, MovieDetails, CreditsResponse, ResultGenres } from '../interfaces/interfaces';
 import { environment } from 'src/environments/environment';
 
 const URL = environment.url;
@@ -31,7 +31,13 @@ export class MoviesAPIService {
     const query = `/tv/popular?&page=1`;
     return this.runQuery<ResultsTMDb>(query);
   }
-  getNetflix() {
+
+  getGenres() {
+    const query = `/genre/movie/list?`;
+    return this.runQuery<ResultGenres>(query);
+  }
+
+  getNetflixTVShows() {
     const query = `/discover/tv?with_networks=213&`;
     return this.runQuery<ResultsTMDb>(query);
   }

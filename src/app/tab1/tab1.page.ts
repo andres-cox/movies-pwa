@@ -11,7 +11,7 @@ export class Tab1Page implements OnInit {
 
   popularMovies: Movie[] = [];
   popularTVShows: Movie[] = [];
-  netflixMovies: Movie[] = [];
+  netflixTVShows: Movie[] = [];
   constructor(private moviesService: MoviesAPIService) { }
   ngOnInit() {
     this.moviesService.getPopularMovies()
@@ -24,10 +24,11 @@ export class Tab1Page implements OnInit {
         this.popularTVShows = res.results;
         //console.log(this.recentMovies);
       });
-    this.moviesService.getNetflix()
+
+    this.moviesService.getNetflixTVShows()
       .subscribe((res: ResultsTMDb) => {
-        this.netflixMovies = res.results;
-        //console.log(this.recentMovies);
+        this.netflixTVShows = res.results;
+        //console.log(res);
       });
   }
 

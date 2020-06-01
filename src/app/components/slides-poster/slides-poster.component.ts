@@ -11,6 +11,9 @@ import { DetailsComponent } from '../details/details.component';
 export class SlidesPosterComponent implements OnInit {
   slideOpts = {
     slidesPerView: 3.3,
+    slidesPerColumn: 2,
+    freeMode: true
+
   }
 
   @Input() movies: Movie[] = [];
@@ -19,10 +22,8 @@ export class SlidesPosterComponent implements OnInit {
 
   constructor(private modalController: ModalController) { }
 
-  ngOnInit(
-  ) {
-    console.log(this.movies);
-
+  ngOnInit() {
+    //console.log(this.movies);
   }
 
   onClick() {
