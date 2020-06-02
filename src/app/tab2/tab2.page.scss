@@ -6,3 +6,15 @@
     
     text-align: center;
 }
+ion-card{
+    display: flex;
+}
+img{
+    flex-grow: 2;
+    width: 110px ;
+    height: 200px ;
+}
+ion-card-content{
+    flex-grow: 6;
+
+}

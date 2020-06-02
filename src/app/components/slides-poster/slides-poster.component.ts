@@ -17,6 +17,7 @@ export class SlidesPosterComponent implements OnInit {
   }
 
   @Input() movies: Movie[] = [];
+  @Input() tvShows: Movie[] = [];
   @Output() loadMore = new EventEmitter();
 
 
@@ -24,6 +25,7 @@ export class SlidesPosterComponent implements OnInit {
 
   ngOnInit() {
     //console.log(this.movies);
+    //console.log(this.tvShows);
   }
 
   onClick() {

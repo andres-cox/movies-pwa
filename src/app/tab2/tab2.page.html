@@ -9,7 +9,7 @@
       <ion-col size="12">
         <ion-slides mode="md" [options]="slideOpts">
           <ion-slide *ngFor="let genre of genres">
-            <ion-chip color="primary">
+            <ion-chip (click)="searchPopularMoviesByGenre(genre.id)" color="primary">
               <ion-label class="chip">{{ genre.name }}</ion-label>
             </ion-chip>
           </ion-slide>
@@ -18,18 +18,14 @@
     </ion-row>
     <ion-row *ngFor="let movie of popularMovies">
       <ion-col>
-        <ion-card>
-          <ion-img [src]="movie.poster_path | image"></ion-img>
-          <div>
-            <ion-card-header>
-              <ion-card-title>{{ movie.title }}</ion-card-title>
-            </ion-card-header>
+        <ion-card (click)="searchDetails(movie.id)">
+          <img [src]="movie.poster_path | image">
+          <ion-card-content>
+            <ion-card-title>{{ movie.title }}</ion-card-title>
 
-            <ion-card-content>
-              <ion-label>{{ movie.overview | slice: 0: hide }}...</ion-label>
-              <ion-label color="primary" (click)="hide = 5000" *ngIf="hide !== 5000">Leer más!</ion-label>
-            </ion-card-content>
-          </div>
+            <ion-label>{{ movie.overview | slice: 0: hide }}...</ion-label>
+            <ion-label color="primary" (click)="hide = 5000" *ngIf="hide !== 5000">Leer más!</ion-label>
+          </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>

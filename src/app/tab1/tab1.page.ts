@@ -17,18 +17,20 @@ export class Tab1Page implements OnInit {
     this.moviesService.getPopularMovies()
       .subscribe((res: ResultsTMDb) => {
         this.popularMovies = res.results;
+        console.log(res);
+
       });
 
     this.moviesService.getPopularTVShows()
       .subscribe((res: ResultsTMDb) => {
         this.popularTVShows = res.results;
-        //console.log(this.recentMovies);
+        console.log(res);
       });
 
     this.moviesService.getNetflixTVShows()
       .subscribe((res: ResultsTMDb) => {
         this.netflixTVShows = res.results;
-        //console.log(res);
+        console.log(res);
       });
   }
 

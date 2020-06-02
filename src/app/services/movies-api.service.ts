@@ -22,9 +22,9 @@ export class MoviesAPIService {
     return this.http.get<T>(query);
 
   }
-  getPopularMovies() {
+  getPopularMovies(genre = '') {
     this.popularMoviesPage++;
-    const query = `/discover/movie?sort_by=popularity.desc&page=${this.popularMoviesPage}`;
+    const query = `/discover/movie?with_genres=${genre}&sort_by=popularity.desc&page=${this.popularMoviesPage}`;
     return this.runQuery<ResultsTMDb>(query);
   }
   getPopularTVShows() {
@@ -47,6 +47,14 @@ export class MoviesAPIService {
   }
   getMovieActors(id: string) {
     return this.runQuery<CreditsResponse>(`/movie/${id}/credits?a=1`);
+  }
+
+  getTVShowDetails(id: string) {
+    return this.runQuery<MovieDetails>(`/tv/${id}?a=1`);
+
+  }
+  getTVShowActors(id: string) {
+    return this.runQuery<CreditsResponse>(`/tv/${id}/credits?a=1`);
   }
 }
 
