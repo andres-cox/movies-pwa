@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Movie } from 'src/app/interfaces/interfaces';
+import { Movie, TVShow } from 'src/app/interfaces/interfaces';
 import { ModalController } from '@ionic/angular';
 import { DetailsComponent } from '../details/details.component';
 
@@ -16,28 +16,31 @@ export class SlidesPosterComponent implements OnInit {
 
   }
 
+  @Input() typeTVShow: boolean;
   @Input() movies: Movie[] = [];
-  @Input() tvShows: Movie[] = [];
+  @Input() tvShows: TVShow[] = [];
+  showTVShows: boolean;
+
   @Output() loadMore = new EventEmitter();
 
 
   constructor(private modalController: ModalController) { }
 
   ngOnInit() {
-    //console.log(this.movies);
-    //console.log(this.tvShows);
+    this.showTVShows = this.typeTVShow;
   }
 
   onClick() {
     this.loadMore.emit();
   }
 
-  async searchDetails(id: string) {
+  async searchDetails(id: string, typeTVShow: boolean) {
 
     const modal = await this.modalController.create({
       component: DetailsComponent,
       componentProps: {
-        id
+        id,
+        typeTVShow
       }
     });
 

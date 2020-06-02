@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MoviesAPIService } from '../services/movies-api.service';
-import { ResultsTMDb, Movie } from '../interfaces/interfaces';
+import { ResultsTMDb, Movie, TVShow } from '../interfaces/interfaces';
 
 @Component({
   selector: 'app-tab1',
@@ -10,27 +10,25 @@ import { ResultsTMDb, Movie } from '../interfaces/interfaces';
 export class Tab1Page implements OnInit {
 
   popularMovies: Movie[] = [];
-  popularTVShows: Movie[] = [];
-  netflixTVShows: Movie[] = [];
+  popularTVShows: TVShow[] = [];
+  netflixTVShows: TVShow[] = [];
+
+
   constructor(private moviesService: MoviesAPIService) { }
   ngOnInit() {
     this.moviesService.getPopularMovies()
       .subscribe((res: ResultsTMDb) => {
         this.popularMovies = res.results;
-        console.log(res);
-
       });
 
     this.moviesService.getPopularTVShows()
       .subscribe((res: ResultsTMDb) => {
         this.popularTVShows = res.results;
-        console.log(res);
       });
 
     this.moviesService.getNetflixTVShows()
       .subscribe((res: ResultsTMDb) => {
         this.netflixTVShows = res.results;
-        console.log(res);
       });
   }
 
@@ -43,6 +41,18 @@ export class Tab1Page implements OnInit {
       .subscribe(resp => {
         const arrTemp = [...this.popularMovies, ...resp.results];
         this.popularMovies = arrTemp;
+
+      });
+    this.moviesService.getPopularTVShows()
+      .subscribe(resp => {
+        const arrTemp = [...this.popularTVShows, ...resp.results];
+        this.popularTVShows = arrTemp;
+
+      });
+    this.moviesService.getNetflixTVShows()
+      .subscribe(resp => {
+        const arrTemp = [...this.netflixTVShows, ...resp.results];
+        this.netflixTVShows = arrTemp;
 
       });
   }

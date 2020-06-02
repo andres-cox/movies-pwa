@@ -10,18 +10,27 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
-  slideOpts = {
-    slidesPerView: 3.1
+  slideOptsGenres = {
+    slidesPerView: 3,
+  }
+  slideOptsYears = {
+    slidesPerView: 4,
   }
   popularMovies: Movie[] = [];
   genres: Genre[] = [];
-  hide = 150;
+  hide = 180;
   genre: string = '';
+  years: number[] = [];
+
 
   constructor(private moviesService: MoviesAPIService,
     private modalController: ModalController) { }
 
   ngOnInit(): void {
+    for (let i = 20; i > 0; i--) {
+      this.years.push(2000 + i);
+    }
+    console.log(this.years)
     this.moviesService.getPopularMovies()
       .subscribe((res: ResultsTMDb) => {
         this.popularMovies = res.results;
@@ -34,8 +43,8 @@ export class Tab2Page {
       })
   }
 
-  searchPopularMoviesByGenre(genre) {
-    this.moviesService.getPopularMovies(genre)
+  searchPopularMovies(genre, year) {
+    this.moviesService.getPopularMovies(genre, year)
       .subscribe((res: ResultsTMDb) => {
         this.popularMovies = res.results;
         console.log(this.popularMovies, res);

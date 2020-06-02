@@ -38,8 +38,9 @@
     <ion-row>
       <ion-col size=12>
 
-        <ion-label>{{ movie.overview | slice: 0: hide }}...</ion-label>
-        <ion-label color="primary" (click)="hide = 5000" *ngIf="hide !== 5000">Leer más!</ion-label>
+        <ion-label>{{ movie.overview }}</ion-label>
+        <!-- <ion-label>{{ movie.overview | slice: 0: hide }}...</ion-label> -->
+        <!-- <ion-label color="primary" (click)="hide = 5000" *ngIf="hide !== 5000">Leer más!</ion-label> -->
 
       </ion-col>
     </ion-row>
@@ -72,6 +73,8 @@
         <img *ngIf="!actor.profile_path" src="/assets/no-avatar.jpg">
         <img *ngIf="actor.profile_path" [src]="actor.profile_path | image">
         <ion-label class="actor-name"> {{ actor.name }}</ion-label>
+        <hr>
+        <ion-label class="actor-name"> {{ actor.character }}</ion-label>
       </ion-card>
 
     </ion-slide>

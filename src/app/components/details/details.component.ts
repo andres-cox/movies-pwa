@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MoviesAPIService } from 'src/app/services/movies-api.service';
-import { MovieDetails, Cast } from 'src/app/interfaces/interfaces';
+import { MovieDetails, Cast, TVShowDetails } from 'src/app/interfaces/interfaces';
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -10,6 +10,7 @@ import { ModalController } from '@ionic/angular';
 })
 export class DetailsComponent implements OnInit {
   @Input() id;
+  @Input() typeTVShow;
 
   slideOptCasting = {
     slidesPerView: 3.3,
@@ -18,6 +19,7 @@ export class DetailsComponent implements OnInit {
   };
 
   movie: MovieDetails = {};
+  tvshow: TVShowDetails = {};
   actors: Cast[] = [];
   hide = 150;
   star = 'star-outline';
@@ -28,6 +30,7 @@ export class DetailsComponent implements OnInit {
     private modalController: ModalController) { }
 
   ngOnInit() {
+    console.log(this.id, this.typeTVShow);
 
     this.moviesService.getMovieDetails(this.id)
       .subscribe(resp => {
@@ -40,6 +43,22 @@ export class DetailsComponent implements OnInit {
         console.log(resp);
         this.actors = resp.cast;
       });
+
+    if (this.typeTVShow) {
+
+      this.moviesService.getTVShowDetails(this.id)
+        .subscribe(resp => {
+          console.log(resp);
+          this.movie = resp;
+        });
+
+
+      this.moviesService.getTVShowActors(this.id)
+        .subscribe(resp => {
+          console.log(resp);
+          this.actors = resp.cast;
+        });
+    }
 
   }
 

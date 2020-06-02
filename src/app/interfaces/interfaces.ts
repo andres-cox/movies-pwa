@@ -29,13 +29,13 @@ export interface TVShow {
     backdrop_path: string;
     vote_average: number;
     overview: string;
-    first_air_date: string;
-    origin_country: string[];
+    first_air_date?: string;
+    origin_country?: string[];
     genre_ids: number[];
     original_language: string;
     vote_count: number;
-    name: string;
-    original_name: string;
+    name?: string;
+    original_name?: string;
 }
 
 export interface MovieDetails {
@@ -66,36 +66,35 @@ export interface MovieDetails {
     vote_count?: number;
 }
 
-
 export interface TVShowDetails {
-    backdrop_path: string;
-    created_by: Createdby[];
-    episode_run_time: number[];
-    first_air_date: string;
-    genres: Genre[];
-    homepage: string;
-    id: number;
-    in_production: boolean;
-    languages: string[];
-    last_air_date: string;
-    last_episode_to_air: Lastepisodetoair;
-    name: string;
+    backdrop_path?: string;
+    created_by?: Createdby[];
+    episode_run_time?: number[];
+    first_air_date?: string;
+    genres?: Genre[];
+    homepage?: string;
+    id?: number;
+    in_production?: boolean;
+    languages?: string[];
+    last_air_date?: string;
+    last_episode_to_air?: Lastepisodetoair;
+    name?: string;
     next_episode_to_air?: any;
-    networks: Network[];
-    number_of_episodes: number;
-    number_of_seasons: number;
-    origin_country: string[];
-    original_language: string;
-    original_name: string;
-    overview: string;
-    popularity: number;
-    poster_path: string;
-    production_companies: Productioncompany[];
-    seasons: Season[];
-    status: string;
-    type: string;
-    vote_average: number;
-    vote_count: number;
+    networks?: Network[];
+    number_of_episodes?: number;
+    number_of_seasons?: number;
+    origin_country?: string[];
+    original_language?: string;
+    original_name?: string;
+    overview?: string;
+    popularity?: number;
+    poster_path?: string;
+    production_companies?: Productioncompany[];
+    seasons?: Season[];
+    status?: string;
+    type?: string;
+    vote_average?: number;
+    vote_count?: number;
 }
 
 interface Season {

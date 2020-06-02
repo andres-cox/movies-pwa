@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ResultsTMDb, MovieDetails, CreditsResponse, ResultGenres } from '../interfaces/interfaces';
+import { ResultsTMDb, MovieDetails, CreditsResponse, ResultGenres, TVShowDetails } from '../interfaces/interfaces';
 import { environment } from 'src/environments/environment';
 
 const URL = environment.url;
@@ -11,6 +11,8 @@ const apiKey = environment.apiKey;
 })
 export class MoviesAPIService {
   private popularMoviesPage = 0;
+  private popularTVShows = 0;
+  private popularNetflixTVShows = 0;
 
 
   constructor(private http: HttpClient) { }
@@ -22,13 +24,21 @@ export class MoviesAPIService {
     return this.http.get<T>(query);
 
   }
-  getPopularMovies(genre = '') {
+  getPopularMovies(genre = '', year = 2020) {
     this.popularMoviesPage++;
-    const query = `/discover/movie?with_genres=${genre}&sort_by=popularity.desc&page=${this.popularMoviesPage}`;
+    const query = `/discover/movie?with_genres=${genre}&page=${this.popularMoviesPage}&primary_release_year=${year}&sort_by=popularity.desc`;
     return this.runQuery<ResultsTMDb>(query);
   }
+
   getPopularTVShows() {
-    const query = `/tv/popular?&page=1`;
+    this.popularTVShows++;
+    const query = `/tv/popular?&page=${this.popularTVShows}`;
+    return this.runQuery<ResultsTMDb>(query);
+  }
+
+  getNetflixTVShows() {
+    this.popularNetflixTVShows++;
+    const query = `/discover/tv?with_networks=213&page=${this.popularNetflixTVShows}`;
     return this.runQuery<ResultsTMDb>(query);
   }
 
@@ -37,22 +47,18 @@ export class MoviesAPIService {
     return this.runQuery<ResultGenres>(query);
   }
 
-  getNetflixTVShows() {
-    const query = `/discover/tv?with_networks=213&`;
-    return this.runQuery<ResultsTMDb>(query);
-  }
-  getMovieDetails(id: string) {
-    return this.runQuery<MovieDetails>(`/movie/${id}?a=1`);
-
-  }
   getMovieActors(id: string) {
     return this.runQuery<CreditsResponse>(`/movie/${id}/credits?a=1`);
   }
 
-  getTVShowDetails(id: string) {
-    return this.runQuery<MovieDetails>(`/tv/${id}?a=1`);
-
+  getMovieDetails(id: string) {
+    return this.runQuery<MovieDetails>(`/movie/${id}?a=1`);
   }
+
+  getTVShowDetails(id: string) {
+    return this.runQuery<TVShowDetails>(`/tv/${id}?a=1`);
+  }
+
   getTVShowActors(id: string) {
     return this.runQuery<CreditsResponse>(`/tv/${id}/credits?a=1`);
   }

@@ -7,7 +7,7 @@
     </ion-row>
   </ion-grid>
 
-  <app-slides-poster [movies]="popularMovies" (loadMore)="loadMore()"></app-slides-poster>
+  <app-slides-poster [movies]="popularMovies" [typeTVShow]="false" (loadMore)="loadMore()"></app-slides-poster>
 
   <ion-grid fixed>
     <ion-row>
@@ -17,7 +17,7 @@
     </ion-row>
   </ion-grid>
 
-  <app-slides-poster [tvShows]="popularTVShows"></app-slides-poster>
+  <app-slides-poster [tvShows]="popularTVShows" [typeTVShow]="true" (loadMore)="loadMore()"></app-slides-poster>
 
   <ion-grid fixed>
     <ion-row>
@@ -27,6 +27,6 @@
     </ion-row>
   </ion-grid>
 
-  <app-slides-poster [tvShows]="netflixTVShows"></app-slides-poster>
+  <app-slides-poster [tvShows]="netflixTVShows" [typeTVShow]="true" (loadMore)="loadMore()"></app-slides-poster>
 
 </ion-content>
