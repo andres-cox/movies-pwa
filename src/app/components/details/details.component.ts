@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MoviesAPIService } from 'src/app/services/movies-api.service';
 import { MovieDetails, Cast, TVShowDetails } from 'src/app/interfaces/interfaces';
 import { ModalController } from '@ionic/angular';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-details',
@@ -27,20 +28,24 @@ export class DetailsComponent implements OnInit {
 
 
   constructor(private moviesService: MoviesAPIService,
+    private storageService: StorageService,
     private modalController: ModalController) { }
 
   ngOnInit() {
-    console.log(this.id, this.typeTVShow);
+    //console.log(this.id, this.typeTVShow);
+
+    this.storageService.movieExists(this.id)
+      .then(exists => this.star = (exists) ? 'star' : 'star-outline');
 
     this.moviesService.getMovieDetails(this.id)
       .subscribe(resp => {
-        console.log(resp);
+        //console.log(resp);
         this.movie = resp;
       });
 
     this.moviesService.getMovieActors(this.id)
       .subscribe(resp => {
-        console.log(resp);
+        //console.log(resp);
         this.actors = resp.cast;
       });
 
@@ -48,18 +53,23 @@ export class DetailsComponent implements OnInit {
 
       this.moviesService.getTVShowDetails(this.id)
         .subscribe(resp => {
-          console.log(resp);
+          //console.log(resp);
           this.movie = resp;
         });
 
 
       this.moviesService.getTVShowActors(this.id)
         .subscribe(resp => {
-          console.log(resp);
+          //console.log(resp);
           this.actors = resp.cast;
         });
     }
 
+  }
+
+  favorite() {
+    const exists = this.storageService.saveMovie(this.movie);
+    this.star = (exists) ? 'star' : 'star-outline';
   }
 
   back() {

@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { StorageService } from '../services/storage.service';
+import { Movie, MovieDetails } from '../interfaces/interfaces';
+
 
 @Component({
   selector: 'app-tab3',
@@ -6,7 +9,15 @@ import { Component } from '@angular/core';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page {
+  favoriteMovies: MovieDetails[] = [];
 
-  constructor() {}
+  constructor(
+    private storageService: StorageService,
+  ) { }
+
+  async ionViewWillEnter() {
+    this.favoriteMovies = await this.storageService.loadFavoriteMovies();
+  }
+
 
 }
