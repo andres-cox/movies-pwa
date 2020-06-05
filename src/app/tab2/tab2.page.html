@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-slides mode="md" [options]="slideOptsGenres">
       <ion-slide *ngFor="let genre of genres">
-        <ion-chip (click)="searchPopularMovies(genre.id)" color="primary">
+        <ion-chip (click)="searchPopularMoviesByGenre(genre)" color="primary">
           <ion-label class="chip-genre">{{ genre.name }}</ion-label>
         </ion-chip>
       </ion-slide>
@@ -11,7 +11,7 @@
   <ion-toolbar>
     <ion-slides mode="md" [options]="slideOptsYears">
       <ion-slide *ngFor="let year of years">
-        <ion-chip (click)="searchPopularMovies('', year)" color="primary">
+        <ion-chip (click)="searchPopularMoviesByYear(year)" color="primary">
           <ion-label class="chip-year">{{ year }}</ion-label>
         </ion-chip>
       </ion-slide>
@@ -19,6 +19,16 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="6" style="margin: auto;">
+        {{this.genreName}}
+      </ion-col>
+      <ion-col size="6" class="ion-align-self-center">
+        {{this.year}}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   <ion-grid fixed>
     <ion-row *ngFor="let movie of popularMovies">
       <ion-col>
@@ -33,22 +43,9 @@
         </ion-card>
       </ion-col>
     </ion-row>
-
-    <!-- <ion-row *ngFor="let movie of popularMovies">
-
-      <ion-col size="12" class="card">
-        <ion-item>
-          <ion-img class="poster" [src]="movie.poster_path | image"></ion-img>
-          <ion-label>
-            <h3>{{ movie.title }}</h3>
-            <p>{{ movie.overview | slice: 0: hide }}...</p>
-          </ion-label>
-          <ion-label color="primary" (click)="hide = 5000" *ngIf="hide !== 5000">Leer más!</ion-label>
-        </ion-item>
-      </ion-col>
-    </ion-row> -->
-
-
-
   </ion-grid>
+  <ion-infinite-scroll threshold="25%" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

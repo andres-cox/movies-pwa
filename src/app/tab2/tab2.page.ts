@@ -19,7 +19,9 @@ export class Tab2Page {
   popularMovies: Movie[] = [];
   genres: Genre[] = [];
   hide = 180;
-  genre: string = '';
+  genre: number = 28;
+  genreName: string = 'Accion';
+  year: number = 2020;
   years: number[] = [];
 
 
@@ -30,11 +32,11 @@ export class Tab2Page {
     for (let i = 20; i > 0; i--) {
       this.years.push(2000 + i);
     }
-    console.log(this.years)
+    //console.log(this.years)
     this.moviesService.getPopularMovies()
       .subscribe((res: ResultsTMDb) => {
         this.popularMovies = res.results;
-        console.log(this.popularMovies, res);
+        //console.log(this.popularMovies, res);
       });
     this.moviesService.getGenres()
       .subscribe((res: ResultGenres) => {
@@ -43,12 +45,43 @@ export class Tab2Page {
       })
   }
 
-  searchPopularMovies(genre, year) {
-    this.moviesService.getPopularMovies(genre, year)
+  searchPopularMoviesByYear(year) {
+    //console.log(this.genre, year)
+    this.moviesService.getMoviesByGenreAndYear(this.genre, year)
       .subscribe((res: ResultsTMDb) => {
         this.popularMovies = res.results;
-        console.log(this.popularMovies, res);
+        //console.log(this.popularMovies, res);
       });
+    this.year = year;
+  }
+
+  searchPopularMoviesByGenre(genre: Genre) {
+    console.log(genre);
+    this.moviesService.getMoviesByGenreAndYear(genre.id, this.year)
+      .subscribe((res: ResultsTMDb) => {
+        this.popularMovies = res.results;
+        //console.log(this.popularMovies, res);
+      });
+    this.genre = genre.id;
+    this.genreName = genre.name;
+  }
+
+  loadData(event?) {
+    this.moviesService.getMoviesByGenreAndYear(this.genre, this.year).subscribe(resp => {
+      console.log(resp);
+
+      if (resp.results.length === 0) {
+        event.target.disabled = true;
+        event.target.complete();
+        return;
+      }
+
+      this.popularMovies.push(...resp.results);
+
+      if (event) {
+        event.target.complete();
+      }
+    });
   }
 
   async searchDetails(id: string) {

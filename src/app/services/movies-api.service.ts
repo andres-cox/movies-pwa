@@ -11,8 +11,11 @@ const apiKey = environment.apiKey;
 })
 export class MoviesAPIService {
   private popularMoviesPage = 0;
+  private genreYearMoviesPage = 0;
   private popularTVShows = 0;
   private popularNetflixTVShows = 0;
+  private currentGenre;
+  private currentYear;
 
 
   constructor(private http: HttpClient) { }
@@ -24,9 +27,25 @@ export class MoviesAPIService {
     return this.http.get<T>(query);
 
   }
-  getPopularMovies(genre = '', year = 2020) {
+
+  getPopularMovies() {
     this.popularMoviesPage++;
-    const query = `/discover/movie?with_genres=${genre}&page=${this.popularMoviesPage}&primary_release_year=${year}&sort_by=popularity.desc`;
+    const query = `/discover/movie?&page=${this.popularMoviesPage}&sort_by=popularity.desc`;
+
+    return this.runQuery<ResultsTMDb>(query);
+  }
+
+  getMoviesByGenreAndYear(genre:number, year:number = 2020) {
+    if (this.currentGenre === genre && this.currentYear === year) {
+        this.genreYearMoviesPage++;
+
+    } else {
+      this.genreYearMoviesPage = 1;
+      this.currentGenre = genre;
+      this.currentYear = year;
+    }
+    console.log(genre, year);
+    const query = `/discover/movie?with_genres=${genre}&primary_release_year=${year}&sort_by=vote_average.desc&sort_by=popularity.desc&page=${this.genreYearMoviesPage}`;
     return this.runQuery<ResultsTMDb>(query);
   }
 
