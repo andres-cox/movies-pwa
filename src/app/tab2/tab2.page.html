@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-slides mode="md" [options]="slideOptsGenres">
       <ion-slide *ngFor="let genre of genres">
-        <ion-chip (click)="searchPopularMoviesByGenre(genre)" color="primary">
+        <ion-chip (click)="changeGenre(genre)" color="primary">
           <ion-label class="chip-genre">{{ genre.name }}</ion-label>
         </ion-chip>
       </ion-slide>
@@ -11,7 +11,7 @@
   <ion-toolbar>
     <ion-slides mode="md" [options]="slideOptsYears">
       <ion-slide *ngFor="let year of years">
-        <ion-chip (click)="searchPopularMoviesByYear(year)" color="primary">
+        <ion-chip (click)="changeYear(year)" color="primary">
           <ion-label class="chip-year">{{ year }}</ion-label>
         </ion-chip>
       </ion-slide>
@@ -21,11 +21,15 @@
 <ion-content>
   <ion-grid fixed>
     <ion-row>
-      <ion-col size="6" style="margin: auto;">
-        {{this.genreName}}
+      <ion-col size="6" class="ion-text-center" color="secondary">
+        <ion-text color="dark">
+          Genero: {{this.genreName}}
+        </ion-text>
       </ion-col>
-      <ion-col size="6" class="ion-align-self-center">
-        {{this.year}}
+      <ion-col size="6" class="ion-text-center">
+        <ion-text color="dark">
+          Año: {{this.year}}
+        </ion-text>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -45,7 +49,7 @@
     </ion-row>
   </ion-grid>
   <ion-infinite-scroll threshold="25%" (ionInfinite)="loadData($event)">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando...">
+    <ion-infinite-scroll-content loadingSpinner="bubbles">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

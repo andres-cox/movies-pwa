@@ -19,8 +19,8 @@ export class Tab2Page {
   popularMovies: Movie[] = [];
   genres: Genre[] = [];
   hide = 180;
-  genre: number = 28;
-  genreName: string = 'Accion';
+  genre: number = 28; //Action
+  genreName: string = 'Acción';
   year: number = 2020;
   years: number[] = [];
 
@@ -33,7 +33,7 @@ export class Tab2Page {
       this.years.push(2000 + i);
     }
     //console.log(this.years)
-    this.moviesService.getPopularMovies()
+    this.moviesService.getMoviesByGenreAndYear(this.genre, this.year)
       .subscribe((res: ResultsTMDb) => {
         this.popularMovies = res.results;
         //console.log(this.popularMovies, res);
@@ -45,22 +45,23 @@ export class Tab2Page {
       })
   }
 
-  searchPopularMoviesByYear(year) {
+  changeYear(year) {
     //console.log(this.genre, year)
+    this.popularMovies = [];
     this.moviesService.getMoviesByGenreAndYear(this.genre, year)
       .subscribe((res: ResultsTMDb) => {
         this.popularMovies = res.results;
-        //console.log(this.popularMovies, res);
+        console.log(res);
       });
     this.year = year;
   }
 
-  searchPopularMoviesByGenre(genre: Genre) {
-    console.log(genre);
+  changeGenre(genre: Genre) {
+    this.popularMovies = [];
     this.moviesService.getMoviesByGenreAndYear(genre.id, this.year)
       .subscribe((res: ResultsTMDb) => {
         this.popularMovies = res.results;
-        //console.log(this.popularMovies, res);
+        console.log(res);
       });
     this.genre = genre.id;
     this.genreName = genre.name;
