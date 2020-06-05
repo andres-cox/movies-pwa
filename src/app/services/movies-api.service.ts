@@ -35,16 +35,15 @@ export class MoviesAPIService {
     return this.runQuery<ResultsTMDb>(query);
   }
 
-  getMoviesByGenreAndYear(genre:number, year:number = 2020) {
+  getMoviesByGenreAndYear(genre: number, year: number = 2020) {
     if (this.currentGenre === genre && this.currentYear === year) {
-        this.genreYearMoviesPage++;
+      this.genreYearMoviesPage++;
 
     } else {
       this.genreYearMoviesPage = 1;
       this.currentGenre = genre;
       this.currentYear = year;
     }
-    console.log(genre, year);
     const query = `/discover/movie?with_genres=${genre}&primary_release_year=${year}&sort_by=vote_average.desc&sort_by=popularity.desc&page=${this.genreYearMoviesPage}`;
     return this.runQuery<ResultsTMDb>(query);
   }
@@ -80,6 +79,10 @@ export class MoviesAPIService {
 
   getTVShowActors(id: string) {
     return this.runQuery<CreditsResponse>(`/tv/${id}/credits?a=1`);
+  }
+
+  multiSearch(text: string) {
+    return this.runQuery<ResultsTMDb>(`/search/multi?&page=1&include_adult=false&query=${text}`);
   }
 }
 

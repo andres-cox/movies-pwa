@@ -1,32 +1,84 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-searchbar placeholder="Buscar Pelicula, Serie, Actor/Actriz" animated (ionChange)="onSearch($event)"
+      [debounce]="700"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
-  <ion-grid fixed>
+  <ion-grid *ngIf="searching">
     <ion-row>
-      <ion-col>
-        <h3>Popular Movies</h3>
+      <ion-col text-center>
+        <ion-spinner name="crescent"></ion-spinner>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <app-slides-poster [movies]="popularMovies" [typeTVShow]="false" (loadMore)="loadMore()"></app-slides-poster>
-
   <ion-grid fixed>
     <ion-row>
-      <ion-col>
-        <h3>Popular TV Shows</h3>
+      <ion-col size="6" *ngFor="let result of results">
+
+        <ng-container *ngIf="result.media_type === 'person'; else movieTvshow">
+          <ion-card>
+            <img *ngIf="!result.profile_path" src="/assets/no-avatar.jpg">
+            <img *ngIf="result.profile_path" [src]="result.profile_path | image">
+            <ion-card-header>
+              <ion-card-subtitle> Persona </ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <h2>{{ result.name }}</h2>
+            </ion-card-content>
+          </ion-card>
+        </ng-container>
+
+
+        <ng-template #movieTvshow>
+          <ion-card>
+            <img [src]="result.poster_path | image">
+            <ion-card-header>
+              <ion-card-subtitle *ngIf="result.media_type === 'movie'"> Pelicula </ion-card-subtitle>
+              <ion-card-subtitle *ngIf="result.media_type === 'tv'"> Serie </ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <h2 *ngIf="result.media_type === 'movie'"> {{result.title}} </h2>
+              <h2 *ngIf="result.media_type === 'tv'"> {{result.name}} </h2>
+            </ion-card-content>
+          </ion-card>
+        </ng-template>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <app-slides-poster [tvShows]="popularTVShows" [typeTVShow]="true" (loadMore)="loadMore()"></app-slides-poster>
+  <div *ngIf="results.length === 0">
 
-  <ion-grid fixed>
-    <ion-row>
-      <ion-col>
-        <h3>Netflix TV Shows</h3>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col>
+          <h3>Popular Movies</h3>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-  <app-slides-poster [tvShows]="netflixTVShows" [typeTVShow]="true" (loadMore)="loadMore()"></app-slides-poster>
+    <app-slides-poster [movies]="popularMovies" [typeTVShow]="false" (loadMore)="loadMore()"></app-slides-poster>
+
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col>
+          <h3>Popular TV Shows</h3>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <app-slides-poster [tvShows]="popularTVShows" [typeTVShow]="true" (loadMore)="loadMore()"></app-slides-poster>
+
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col>
+          <h3>Netflix TV Shows</h3>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <app-slides-poster [tvShows]="netflixTVShows" [typeTVShow]="true" (loadMore)="loadMore()"></app-slides-poster>
+  </div>
 
 </ion-content>

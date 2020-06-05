@@ -12,6 +12,9 @@ export class Tab1Page implements OnInit {
   popularMovies: Movie[] = [];
   popularTVShows: TVShow[] = [];
   netflixTVShows: TVShow[] = [];
+  searching: boolean = false;
+  results = [];
+  // person = 'person';
 
 
   constructor(private moviesService: MoviesAPIService) { }
@@ -55,6 +58,26 @@ export class Tab1Page implements OnInit {
         this.netflixTVShows = arrTemp;
 
       });
+  }
+
+  onSearch(event) {
+    const searchText = event.detail.value;
+
+    if (searchText.length === 0) {
+      this.searching = false;
+      this.results = [];
+      return;
+    }
+
+    this.searching = true;
+
+    this.moviesService.multiSearch(searchText)
+      .subscribe(resp => {
+        this.results = resp.results;
+        this.searching = false;
+        console.log(this.results)
+      })
+
   }
 
 }

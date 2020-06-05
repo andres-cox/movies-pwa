@@ -32,26 +32,21 @@ export class Tab2Page {
     for (let i = 20; i > 0; i--) {
       this.years.push(2000 + i);
     }
-    //console.log(this.years)
     this.moviesService.getMoviesByGenreAndYear(this.genre, this.year)
       .subscribe((res: ResultsTMDb) => {
         this.popularMovies = res.results;
-        //console.log(this.popularMovies, res);
       });
     this.moviesService.getGenres()
       .subscribe((res: ResultGenres) => {
         this.genres = res.genres;
-        console.log(res, this.genres);
       })
   }
 
   changeYear(year) {
-    //console.log(this.genre, year)
     this.popularMovies = [];
     this.moviesService.getMoviesByGenreAndYear(this.genre, year)
       .subscribe((res: ResultsTMDb) => {
         this.popularMovies = res.results;
-        console.log(res);
       });
     this.year = year;
   }
@@ -61,7 +56,6 @@ export class Tab2Page {
     this.moviesService.getMoviesByGenreAndYear(genre.id, this.year)
       .subscribe((res: ResultsTMDb) => {
         this.popularMovies = res.results;
-        console.log(res);
       });
     this.genre = genre.id;
     this.genreName = genre.name;
@@ -69,7 +63,6 @@ export class Tab2Page {
 
   loadData(event?) {
     this.moviesService.getMoviesByGenreAndYear(this.genre, this.year).subscribe(resp => {
-      console.log(resp);
 
       if (resp.results.length === 0) {
         event.target.disabled = true;
