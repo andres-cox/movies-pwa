@@ -16,10 +16,10 @@ export class SlidesPosterComponent implements OnInit {
 
   }
 
-  @Input() typeTVShow: boolean;
+  @Input() mediaType: string;
   @Input() movies: Movie[] = [];
   @Input() tvShows: TVShow[] = [];
-  showTVShows: boolean;
+  media: string;
 
   @Output() loadMore = new EventEmitter();
 
@@ -27,20 +27,21 @@ export class SlidesPosterComponent implements OnInit {
   constructor(private modalController: ModalController) { }
 
   ngOnInit() {
-    this.showTVShows = this.typeTVShow;
+    this.media = this.mediaType;
+    console.log(this.media, this.mediaType);
   }
 
   onClick() {
     this.loadMore.emit();
   }
 
-  async searchDetails(id: string, typeTVShow: boolean) {
+  async searchDetails(id: string, mediaType: string) {
 
     const modal = await this.modalController.create({
       component: DetailsComponent,
       componentProps: {
         id,
-        typeTVShow
+        mediaType
       }
     });
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MoviesAPIService } from '../services/movies-api.service';
 import { ResultsTMDb, Movie, TVShow } from '../interfaces/interfaces';
+import { DetailsComponent } from '../components/details/details.component';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -14,10 +16,10 @@ export class Tab1Page implements OnInit {
   netflixTVShows: TVShow[] = [];
   searching: boolean = false;
   results = [];
-  // person = 'person';
 
 
-  constructor(private moviesService: MoviesAPIService) { }
+  constructor(private moviesService: MoviesAPIService,
+    private modalController: ModalController) { }
   ngOnInit() {
     this.moviesService.getPopularMovies()
       .subscribe((res: ResultsTMDb) => {
@@ -35,29 +37,34 @@ export class Tab1Page implements OnInit {
       });
   }
 
-  loadMore() {
-    this.getPopulars();
-  }
+  loadMore(media: string) {
+    switch (media) {
+      case 'popularMovies':
+        this.moviesService.getPopularMovies()
+          .subscribe(resp => {
+            const arrTemp = [...this.popularMovies, ...resp.results];
+            this.popularMovies = arrTemp;
+          });
+        break;
+      case 'popularTVShows':
+        this.moviesService.getPopularTVShows()
+          .subscribe(resp => {
+            const arrTemp = [...this.popularTVShows, ...resp.results];
+            this.popularTVShows = arrTemp;
+          });
+        break;
+      case 'popularNetflixTVShows':
+        this.moviesService.getNetflixTVShows()
+          .subscribe(resp => {
+            const arrTemp = [...this.netflixTVShows, ...resp.results];
+            this.netflixTVShows = arrTemp;
 
-  getPopulars() {
-    this.moviesService.getPopularMovies()
-      .subscribe(resp => {
-        const arrTemp = [...this.popularMovies, ...resp.results];
-        this.popularMovies = arrTemp;
+          });
+        break;
 
-      });
-    this.moviesService.getPopularTVShows()
-      .subscribe(resp => {
-        const arrTemp = [...this.popularTVShows, ...resp.results];
-        this.popularTVShows = arrTemp;
-
-      });
-    this.moviesService.getNetflixTVShows()
-      .subscribe(resp => {
-        const arrTemp = [...this.netflixTVShows, ...resp.results];
-        this.netflixTVShows = arrTemp;
-
-      });
+      default:
+        break;
+    }
   }
 
   onSearch(event) {
@@ -79,5 +86,20 @@ export class Tab1Page implements OnInit {
       })
 
   }
+
+  async searchDetails(id: string, mediaType: string) {
+
+    const modal = await this.modalController.create({
+      component: DetailsComponent,
+      componentProps: {
+        id,
+        mediaType
+      }
+    });
+
+    modal.present();
+
+  }
+
 
 }

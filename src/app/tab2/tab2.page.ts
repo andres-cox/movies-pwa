@@ -78,12 +78,13 @@ export class Tab2Page {
     });
   }
 
-  async searchDetails(id: string) {
+  async searchDetails(id: string, mediaType: string) {
 
     const modal = await this.modalController.create({
       component: DetailsComponent,
       componentProps: {
-        id
+        id,
+        mediaType
       }
     });
 
