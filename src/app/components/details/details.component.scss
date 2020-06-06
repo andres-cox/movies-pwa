@@ -30,6 +30,22 @@
     height: 190px;
 }
 
+.card-movies {
+    width: 90px;
+
+    img{
+        height: 160px;
+    }
+    
+    .no-image{
+        object-fit: cover;
+    }
+    
+    .card-movies-title {
+        padding: 5px 2px;
+    }
+}
+
 .actor-name {
     position: relative;
     top:15px;

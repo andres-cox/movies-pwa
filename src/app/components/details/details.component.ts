@@ -26,7 +26,7 @@ export class DetailsComponent implements OnInit {
   actor = {};
   movies: Movie[] = [];
 
-  hide = 150;
+  hide = 250;
   star = 'star-outline';
 
 
@@ -66,13 +66,13 @@ export class DetailsComponent implements OnInit {
       case 'person':
         this.moviesService.getActorDetails(this.id)
           .subscribe(resp => {
-            // this.actor = resp;
+            this.actor = resp;
             console.log(resp);
           });
 
         this.moviesService.getActorMovies(this.id)
           .subscribe(resp => {
-            // this.movies = resp;
+            this.movies = resp.results;
             console.log(resp);
           });
         break;
@@ -89,6 +89,20 @@ export class DetailsComponent implements OnInit {
 
   back() {
     this.modalController.dismiss();
+  }
+
+  async searchDetails(id: string, mediaType: string) {
+
+    const modal = await this.modalController.create({
+      component: DetailsComponent,
+      componentProps: {
+        id,
+        mediaType
+      }
+    });
+
+    modal.present();
+
   }
 
 }

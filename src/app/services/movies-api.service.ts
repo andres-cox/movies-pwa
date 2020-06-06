@@ -86,7 +86,7 @@ export class MoviesAPIService {
   }
 
   getActorMovies(id: string) {
-    return this.runQuery<CreditsResponse>(`/discover/movie?with_genres=878&with_cast=${id}&sort_by=vote_average.desc`);
+    return this.runQuery<CreditsResponse>(`/discover/movie?&with_cast=${id}&sort_by=popularity.desc`);
   }
 
   multiSearch(text: string) {
