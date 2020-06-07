@@ -9,10 +9,15 @@ const { Storage } = Plugins;
   providedIn: 'root'
 })
 export class StorageService {
+  favoriteMovies: MovieDetails[] = [];
+  watchListMovies: MovieDetails[] = [];
+  seenMovies: MovieDetails[] = [];
   movies: MovieDetails[] = [];
 
   constructor(private toastController: ToastController) {
-    this.loadFavoriteMovies();
+    this.loadMovies('favoriteMovies');
+    this.loadMovies('watchListMovies');
+    this.loadMovies('seenMovies');
   }
 
   async presentToast(message: string) {
@@ -23,21 +28,21 @@ export class StorageService {
     toast.present();
   }
 
-  async loadFavoriteMovies() {
+  async loadMovies(listMovies: string) {
 
-    const res = await Storage.get({ key: 'movies' });
+    const res = await Storage.get({ key: `${listMovies}` });
     this.movies = JSON.parse(res.value) || [];
     return this.movies;
   }
 
 
-  async saveMovie(movie: MovieDetails) {
+  async saveFavoriteMovie(movie: MovieDetails) {
 
-    console.log(this.movies);
+    console.log(this.favoriteMovies);
     let exists = false;
     let message = '';
 
-    for (const item of this.movies) {
+    for (const item of this.favoriteMovies) {
       if (item.id === movie.id) {
         exists = true;
         break;
@@ -45,25 +50,85 @@ export class StorageService {
     }
 
     if (exists) {
-      this.movies = this.movies.filter(el => el.id !== movie.id);
+      this.favoriteMovies = this.favoriteMovies.filter(el => el.id !== movie.id);
       message = 'Removido de favoritos';
     } else {
-      this.movies.push(movie);
+      this.favoriteMovies.push(movie);
       message = 'Agregada a favoritos';
     }
     this.presentToast(message);
 
     await Storage.set({
-      key: 'movies',
-      value: JSON.stringify(this.movies)
+      key: 'favoriteMovies',
+      value: JSON.stringify(this.favoriteMovies)
     });
 
     return !exists;
   }
 
-  async movieExists(id) {
+  async saveInWatchList(movie: MovieDetails) {
 
-    await this.loadFavoriteMovies();
+    console.log(this.watchListMovies);
+    let exists = false;
+    let message = '';
+
+    for (const item of this.watchListMovies) {
+      if (item.id === movie.id) {
+        exists = true;
+        break;
+      }
+    }
+
+    if (exists) {
+      this.watchListMovies = this.watchListMovies.filter(el => el.id !== movie.id);
+      message = 'Removido de la lista';
+    } else {
+      this.watchListMovies.push(movie);
+      message = 'Agregada a la lista';
+    }
+    this.presentToast(message);
+
+    await Storage.set({
+      key: 'watchListMovies',
+      value: JSON.stringify(this.watchListMovies)
+    });
+
+    return !exists;
+  }
+
+  async seenMoviesList(movie: MovieDetails) {
+
+    console.log(this.seenMovies);
+    let exists = false;
+    let message = '';
+
+    for (const item of this.seenMovies) {
+      if (item.id === movie.id) {
+        exists = true;
+        break;
+      }
+    }
+
+    if (exists) {
+      this.seenMovies = this.seenMovies.filter(el => el.id !== movie.id);
+      message = 'Removido de Vistos';
+    } else {
+      this.seenMovies.push(movie);
+      message = 'Agregada a Vistos';
+    }
+    this.presentToast(message);
+
+    await Storage.set({
+      key: 'seenMovies',
+      value: JSON.stringify(this.seenMovies)
+    });
+
+    return !exists;
+  }
+
+  async movieExists(id, listmovies: string) {
+
+    await this.loadMovies(listmovies);
     const existe = this.movies.find(el => el.id === id);
 
     return (existe) ? true : false;

@@ -45,7 +45,7 @@ export class DetailsComponent implements OnInit {
     switch (this.mediaType) {
       case 'movie':
 
-        this.storageService.movieExists(this.id)
+        this.storageService.movieExists(this.id, 'favortieMovies')
           .then(exists => this.star = (exists) ? 'star' : 'star-outline');
 
         this.moviesService.getMovieDetails(this.id)
@@ -90,7 +90,7 @@ export class DetailsComponent implements OnInit {
   }
 
   favorite() {
-    const exists = this.storageService.saveMovie(this.movie);
+    const exists = this.storageService.saveFavoriteMovie(this.movie);
     this.star = (exists) ? 'star' : 'star-outline';
   }
 
