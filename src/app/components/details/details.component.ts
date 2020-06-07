@@ -30,23 +30,23 @@ export class DetailsComponent implements OnInit {
 
   hide = 250;
   star = 'star-outline';
-
-
+  checkMark = 'checkmark-circle-outline';
+  eye = 'eye-outline';
 
   constructor(private moviesService: MoviesAPIService,
     private storageService: StorageService,
     private modalController: ModalController) { }
 
   ngOnInit() {
-    console.log(this.id, this.mediaType);
-
-
-
     switch (this.mediaType) {
       case 'movie':
 
-        this.storageService.movieExists(this.id, 'favortieMovies')
+        this.storageService.movieExists(this.id, 'favorites')
           .then(exists => this.star = (exists) ? 'star' : 'star-outline');
+        this.storageService.movieExists(this.id, 'towatch')
+          .then(exists => this.eye = (exists) ? 'eye' : 'eye-outline');
+        this.storageService.movieExists(this.id, 'seen')
+          .then(exists => this.checkMark = (exists) ? 'checkmark-circle' : 'checkmark-circle-outline');
 
         this.moviesService.getMovieDetails(this.id)
           .subscribe(resp => {
@@ -74,13 +74,11 @@ export class DetailsComponent implements OnInit {
         this.moviesService.getActorDetails(this.id)
           .subscribe(resp => {
             this.actor = resp;
-            //console.log(resp);
           });
 
         this.moviesService.getActorMovies(this.id)
           .subscribe(resp => {
             this.movies = resp.results;
-            //console.log(resp);
           });
         break;
 
@@ -90,8 +88,18 @@ export class DetailsComponent implements OnInit {
   }
 
   favorite() {
-    const exists = this.storageService.saveFavoriteMovie(this.movie);
+    const exists = this.storageService.saveMovieAs('favorites', this.movie);
     this.star = (exists) ? 'star' : 'star-outline';
+  }
+
+  toWatch() {
+    const exists = this.storageService.saveMovieAs('towatch', this.movie);
+    this.eye = (exists) ? 'eye' : 'eye-outline';
+  }
+
+  seenMovie() {
+    const exists = this.storageService.saveMovieAs('seen', this.movie);
+    this.checkMark = (exists) ? 'checkmark-circle' : 'checkmark-circle-outline';
   }
 
   back() {
@@ -111,5 +119,6 @@ export class DetailsComponent implements OnInit {
     modal.present();
 
   }
+
 
 }

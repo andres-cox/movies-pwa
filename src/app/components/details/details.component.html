@@ -193,7 +193,7 @@
     <ion-buttons slot="start">
       <ion-button (click)="back()">
         <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
-        <ion-label>Regresar</ion-label>
+        <ion-label *ngIf="mediaType !== 'movie'">Regresar</ion-label>
       </ion-button>
     </ion-buttons>
 
@@ -201,6 +201,14 @@
       <ion-button (click)="favorite()">
         <ion-label>Favorito</ion-label>
         <ion-icon slot="end" [name]="star"></ion-icon>
+      </ion-button>
+      <ion-button (click)="toWatch(movie)">
+        <ion-label>Para Ver</ion-label>
+        <ion-icon slot="end" [name]="eye"></ion-icon>
+      </ion-button>
+      <ion-button (click)="seenMovie(movie)">
+        <ion-label>Visto</ion-label>
+        <ion-icon slot="end" [name]="checkMark"></ion-icon>
       </ion-button>
     </ion-buttons>
 

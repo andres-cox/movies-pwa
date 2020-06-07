@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Movie, TVShow } from 'src/app/interfaces/interfaces';
 import { ModalController } from '@ionic/angular';
 import { DetailsComponent } from '../details/details.component';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-slides-poster',
@@ -23,11 +24,13 @@ export class SlidesPosterComponent implements OnInit {
 
   @Output() loadMore = new EventEmitter();
 
-
-  constructor(private modalController: ModalController) { }
+  constructor(private modalController: ModalController,
+    private storageService: StorageService) { }
 
   ngOnInit() {
     this.media = this.mediaType;
+
+
   }
 
   onClick() {
@@ -43,10 +46,7 @@ export class SlidesPosterComponent implements OnInit {
         mediaType
       }
     });
-
     modal.present();
-
   }
-
 
 }

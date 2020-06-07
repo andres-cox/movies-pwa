@@ -1,4 +1,4 @@
-<div *ngIf="media === 'tvshow'; else elseTemplate">
+<div *ngIf="media === 'tvshow'; else moviee">
   <ion-slides [options]="slideOpts">
     <ion-slide *ngFor="let tvShow of tvShows">
       <ion-card class="poster" (click)="searchDetails( tvShow.id, 'tv' )">
@@ -10,46 +10,20 @@
         <ion-icon name="add" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-slide>
+
   </ion-slides>
 </div>
-<ng-template #elseTemplate>
+<ng-template #moviee>
   <ion-slides [options]="slideOpts">
-
     <ion-slide *ngFor="let movie of movies">
       <ion-card class="poster" mode="md" (click)="searchDetails( movie.id, 'movie' )">
         <img class="poster" [src]="movie.poster_path | image">
       </ion-card>
-      <ion-fab class="test" horizontal="end" vertical="top">
-        <ion-fab-button size="small" color="light">
-          <ion-icon name="caret-down-circle-outline"></ion-icon>
-        </ion-fab-button>
-        <ion-fab-list side="bottom">
-          <ion-fab-button color="light">
-            <ion-icon name="checkmark-circle-outline"></ion-icon>
-          </ion-fab-button>
-          <ion-fab-button color="light">
-            <ion-icon name="eye-outline"></ion-icon>
-          </ion-fab-button>
-        </ion-fab-list>
-      </ion-fab>
     </ion-slide>
     <ion-slide class="slide-mas">
       <ion-button expand="full" class="btn-mas" size="large" (click)="onClick()">
         <ion-icon name="add" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-slide>
-    <ion-fab class="test" horizontal="end" vertical="top">
-      <ion-fab-button size="small" color="light">
-        <ion-icon name="caret-down-circle-outline"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-list side="bottom">
-        <ion-fab-button color="light">
-          <ion-icon name="checkmark-circle-outline"></ion-icon>
-        </ion-fab-button>
-        <ion-fab-button color="light">
-          <ion-icon name="eye-outline"></ion-icon>
-        </ion-fab-button>
-      </ion-fab-list>
-    </ion-fab>
   </ion-slides>
 </ng-template>
