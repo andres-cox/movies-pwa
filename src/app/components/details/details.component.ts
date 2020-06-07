@@ -21,8 +21,10 @@ export class DetailsComponent implements OnInit {
 
   movie: MovieDetails = {};
   tvshow: TVShowDetails = {};
-  actors: Cast[] = [];
+  actors: ActorDetails[] = [];
 
+  animationGenre: boolean = false;
+  animationActors: string[] = [];
   actor = {};
   movies: Movie[] = [];
 
@@ -38,42 +40,47 @@ export class DetailsComponent implements OnInit {
   ngOnInit() {
     console.log(this.id, this.mediaType);
 
-    this.storageService.movieExists(this.id)
-      .then(exists => this.star = (exists) ? 'star' : 'star-outline');
 
 
     switch (this.mediaType) {
       case 'movie':
 
+        this.storageService.movieExists(this.id)
+          .then(exists => this.star = (exists) ? 'star' : 'star-outline');
+
         this.moviesService.getMovieDetails(this.id)
-          .subscribe(resp => this.movie = resp);
+          .subscribe(resp => {
+            this.movie = resp;
+            this.animationGenre = this.movie.genres.some(genre => genre.name.toLowerCase() == 'animación');
+            console.log(this.animationGenre);
+          });
 
         this.moviesService.getMovieActors(this.id)
           .subscribe(resp => this.actors = resp.cast);
-
         break;
 
       case 'tv':
         this.moviesService.getTVShowDetails(this.id)
-          .subscribe(resp => this.tvshow = resp);
+          .subscribe(resp => {
+            this.tvshow = resp;
+            this.animationGenre = this.tvshow.genres.some(genre => genre.name.toLowerCase() == 'animación');
+          });
 
         this.moviesService.getTVShowActors(this.id)
           .subscribe(resp => this.actors = resp.cast);
-
-
         break;
 
       case 'person':
         this.moviesService.getActorDetails(this.id)
           .subscribe(resp => {
             this.actor = resp;
-            console.log(resp);
+            //console.log(resp);
           });
 
         this.moviesService.getActorMovies(this.id)
           .subscribe(resp => {
             this.movies = resp.results;
-            console.log(resp);
+            //console.log(resp);
           });
         break;
 

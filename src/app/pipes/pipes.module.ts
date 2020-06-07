@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImagePipe } from './image.pipe';
+import { VoiceActorPipe } from './voice-actor.pipe';
 
 
 
 @NgModule({
   declarations: [
-    ImagePipe
+    ImagePipe,
+    VoiceActorPipe
   ],
   exports: [
-    ImagePipe
+    ImagePipe,
+    VoiceActorPipe
   ],
   imports: [
     CommonModule

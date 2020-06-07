@@ -44,6 +44,7 @@ export class Tab1Page implements OnInit {
           .subscribe(resp => {
             const arrTemp = [...this.popularMovies, ...resp.results];
             this.popularMovies = arrTemp;
+            console.log(resp);
           });
         break;
       case 'popularTVShows':

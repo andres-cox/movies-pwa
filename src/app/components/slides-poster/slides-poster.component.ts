@@ -28,7 +28,6 @@ export class SlidesPosterComponent implements OnInit {
 
   ngOnInit() {
     this.media = this.mediaType;
-    console.log(this.media, this.mediaType);
   }
 
   onClick() {

@@ -53,12 +53,12 @@
     <ion-grid fixed>
       <ion-row>
         <ion-col>
-          <h3>Peliculas Populares</h3>
+          <h3>Películas Populares</h3>
         </ion-col>
       </ion-row>
     </ion-grid>
 
-    <app-slides-poster mediaType="movie" [movies]="popularMovies" (loadMore)="loadMore(popularMovies)">
+    <app-slides-poster mediaType="movie" [movies]="popularMovies" (loadMore)="loadMore('popularMovies')">
     </app-slides-poster>
 
     <ion-grid fixed>
@@ -69,7 +69,7 @@
       </ion-row>
     </ion-grid>
 
-    <app-slides-poster mediaType="tvshow" [tvShows]="popularTVShows" (loadMore)="loadMore(popularTVShows)">
+    <app-slides-poster mediaType="tvshow" [tvShows]="popularTVShows" (loadMore)="loadMore('popularTVShows')">
     </app-slides-poster>
 
     <ion-grid fixed>
@@ -80,7 +80,7 @@
       </ion-row>
     </ion-grid>
 
-    <app-slides-poster mediaType="tvshow" [tvShows]="netflixTVShows" (loadMore)="loadMore(popularNetflixTVShows)">
+    <app-slides-poster mediaType="tvshow" [tvShows]="netflixTVShows" (loadMore)="loadMore('popularNetflixTVShows')">
     </app-slides-poster>
   </div>
 

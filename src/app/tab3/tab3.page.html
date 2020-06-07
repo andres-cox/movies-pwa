@@ -1,19 +1,17 @@
-<ion-header [translucent]="true">
-
-
-  <ion-grid fixed>
-    <ion-row>
-      <ion-col size="6">
-
-        <ion-button expand="block" fill="clear" color="dark">Favoritos</ion-button>
-      </ion-col>
-      <ion-col size="6">
-
-        <ion-button expand="block" fill="clear" color="dark">Vistos</ion-button>
-
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-header>
+  <ion-toolbar>
+    <ion-segment (ionChange)="segmentChanged($event)" value="favorites">
+      <ion-segment-button value="watchlist">
+        <ion-label>Para Ver</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="favorites">
+        <ion-label>Favoritos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="seen">
+        <ion-label>Vistos</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
@@ -28,7 +26,7 @@
     <ion-row>
       <div *ngFor="let movie of favoriteMovies">
         <ion-col size="4">
-          <ion-card mode="md" (click)="searchDetails( movie.id, false )">
+          <ion-card mode="md" (click)="searchDetails( movie.id, 'movie' )">
             <img class="poster" [src]="movie.poster_path | image">
           </ion-card>
         </ion-col>
