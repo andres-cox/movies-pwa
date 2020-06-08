@@ -17,6 +17,10 @@ export class Tab1Page implements OnInit {
   searching: boolean = false;
   results = [];
 
+  slideOpts = {
+    slidesPerView: 3.3,
+    freeMode: true
+  }
 
   constructor(private moviesService: MoviesAPIService,
     private modalController: ModalController) { }

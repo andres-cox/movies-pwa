@@ -12,9 +12,7 @@ import { StorageService } from 'src/app/services/storage.service';
 export class SlidesPosterComponent implements OnInit {
   slideOpts = {
     slidesPerView: 3.3,
-    slidesPerColumn: 2,
     freeMode: true
-
   }
 
   @Input() mediaType: string;
@@ -22,15 +20,13 @@ export class SlidesPosterComponent implements OnInit {
   @Input() tvShows: TVShow[] = [];
   media: string;
 
+
   @Output() loadMore = new EventEmitter();
 
-  constructor(private modalController: ModalController,
-    private storageService: StorageService) { }
+  constructor(private modalController: ModalController) { }
 
   ngOnInit() {
     this.media = this.mediaType;
-
-
   }
 
   onClick() {

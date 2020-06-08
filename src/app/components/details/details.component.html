@@ -3,7 +3,7 @@
     <!-- MOVIE -->
     <div *ngSwitchCase="'movie'">
       <ion-label class="title">
-        <h2> {{ movie.title }} </h2>
+        <h2> {{ movie.title }} ({{ year }}) </h2>
       </ion-label>
 
       <img *ngIf="!movie.backdrop_path" src="/assets/no-image-banner.jpg">

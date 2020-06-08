@@ -1,13 +1,13 @@
-<ion-header class="ion-no-border">
+<ion-header>
   <ion-toolbar>
-    <ion-searchbar mode='ios' placeholder="Buscar Pelicula, Serie, Actor/Actriz" animated (ionChange)="onSearch($event)"
+    <ion-searchbar mode='ios' placeholder="Buscar Pelicula, Serie, Actor/Actriz" (ionChange)="onSearch($event)"
       [debounce]="700"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <ion-grid *ngIf="searching">
     <ion-row>
-      <ion-col text-center>
+      <ion-col class="ion-text-center">
         <ion-spinner name="crescent"></ion-spinner>
       </ion-col>
     </ion-row>
@@ -19,7 +19,7 @@
 
         <ng-container *ngIf="result.media_type === 'person'; else movieTvshow">
           <ion-card (click)="searchDetails(result.id, result.media_type )">
-            <img *ngIf="!result.profile_path" src="/assets/no-avatar.jpg">
+            <img class="no-image" *ngIf="!result.profile_path" src="/assets/no-avatar.jpg">
             <img *ngIf="result.profile_path" [src]="result.profile_path | image">
             <ion-card-header>
               <ion-card-subtitle> Persona </ion-card-subtitle>
@@ -33,6 +33,7 @@
 
         <ng-template #movieTvshow>
           <ion-card (click)="searchDetails(result.id, result.media_type )">
+            <img class="no-image" *ngIf="!result.poster_path" src="/assets/no-image-banner.jpg">
             <img [src]="result.poster_path | image">
             <ion-card-header>
               <ion-card-subtitle *ngIf="result.media_type === 'movie'"> Pelicula </ion-card-subtitle>
@@ -58,6 +59,16 @@
       </ion-row>
     </ion-grid>
 
+    <div *ngIf="popularMovies.length == 0">
+      <ion-slides [options]="slideOpts">
+        <ion-slide *ngFor="let item of [0,0,0,0]">
+          <ion-card class="poster">
+            <ion-skeleton-text animated style="width: 100%; height: 100%;"></ion-skeleton-text>
+          </ion-card>
+        </ion-slide>
+      </ion-slides>
+    </div>
+
     <app-slides-poster mediaType="movie" [movies]="popularMovies" (loadMore)="loadMore('popularMovies')">
     </app-slides-poster>
 
@@ -69,8 +80,19 @@
       </ion-row>
     </ion-grid>
 
+    <div *ngIf="popularTVShows.length == 0">
+      <ion-slides [options]="slideOpts">
+        <ion-slide *ngFor="let item of [0,0,0,0]">
+          <ion-card class="poster">
+            <ion-skeleton-text animated style="width: 100%; height: 100%;"></ion-skeleton-text>
+          </ion-card>
+        </ion-slide>
+      </ion-slides>
+    </div>
+
     <app-slides-poster mediaType="tvshow" [tvShows]="popularTVShows" (loadMore)="loadMore('popularTVShows')">
     </app-slides-poster>
+
 
     <ion-grid fixed>
       <ion-row>

@@ -27,6 +27,7 @@ export class DetailsComponent implements OnInit {
   animationActors: string[] = [];
   actor = {};
   movies: Movie[] = [];
+  year;
 
   hide = 250;
   star = 'star-outline';
@@ -52,7 +53,7 @@ export class DetailsComponent implements OnInit {
           .subscribe(resp => {
             this.movie = resp;
             this.animationGenre = this.movie.genres.some(genre => genre.name.toLowerCase() == 'animación');
-            console.log(this.animationGenre);
+            this.year = resp.release_date.split('-')[0];
           });
 
         this.moviesService.getMovieActors(this.id)

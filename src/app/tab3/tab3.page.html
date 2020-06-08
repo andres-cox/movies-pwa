@@ -61,7 +61,7 @@
         <ion-row>
           <div *ngFor="let movie of favoriteMovies">
             <ion-col size="4">
-              <ion-card class="poster" mode="md" (click)="searchDetails( movie.id, 'movie' )">
+              <ion-card class="poster" (click)="searchDetails( movie.id, 'movie' )">
                 <img class="poster" [src]="movie.poster_path | image">
               </ion-card>
             </ion-col>
