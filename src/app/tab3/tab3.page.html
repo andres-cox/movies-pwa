@@ -18,54 +18,61 @@
 
   <span [ngSwitch]="typeListMovies">
     <div *ngSwitchCase="'towatch'">
+      <ion-text *ngIf="watchListMovies.length==0" color="primary">
+        <h1 class="no-elements">No hay peliculas en esta categoria</h1>
+      </ion-text>
       <ion-grid>
         <ion-row>
-          <div *ngFor="let movie of watchListMovies">
-            <ion-col size="4">
-              <ion-card class="poster" mode="md" (click)="searchDetails( movie.id, 'movie' )">
-                <img class="poster" [src]="movie.poster_path | image">
-              </ion-card>
-            </ion-col>
-          </div>
+          <ion-col size="4" *ngFor="let movie of watchListMovies">
+            <ion-card class="poster" mode="md" (click)="searchDetails( movie.id, 'movie' )">
+              <img class="poster" [src]="movie.poster_path | image">
+            </ion-card>
+            <ion-fab-button size="small" color="dark" (click)="seenMovie(movie)">
+              <ion-icon name="checkmark-outline"></ion-icon>
+            </ion-fab-button>
+          </ion-col>
         </ion-row>
       </ion-grid>
     </div>
     <div *ngSwitchCase="'favorites'">
+      <ion-text *ngIf="favoriteMovies.length==0" color="primary">
+        <h1 class="no-elements">No hay peliculas en esta categoria</h1>
+      </ion-text>
       <ion-grid>
         <ion-row>
-          <div *ngFor="let movie of favoriteMovies">
-            <ion-col size="4">
-              <ion-card class="poster" mode="md" (click)="searchDetails( movie.id, 'movie' )">
-                <img class="poster" [src]="movie.poster_path | image">
-              </ion-card>
-            </ion-col>
-          </div>
+          <ion-col size="4" *ngFor="let movie of favoriteMovies">
+            <ion-card class="poster" mode="md" (click)="searchDetails( movie.id, 'movie' )">
+              <img class="poster" [src]="movie.poster_path | image">
+            </ion-card>
+          </ion-col>
         </ion-row>
       </ion-grid>
     </div>
     <div *ngSwitchCase="'seen'">
+      <ion-text *ngIf="seenMovies.length==0" color="primary">
+        <h1 class="no-elements">No hay peliculas en esta categoria</h1>
+      </ion-text>
       <ion-grid>
         <ion-row>
-          <div *ngFor="let movie of seenMovies">
-            <ion-col size="4">
-              <ion-card class="poster" mode="md" (click)="searchDetails( movie.id, 'movie' )">
-                <img class="poster" [src]="movie.poster_path | image">
-              </ion-card>
-            </ion-col>
-          </div>
+          <ion-col size="4" *ngFor="let movie of seenMovies">
+            <ion-card mode="md" (click)="searchDetails( movie.id, 'movie' )">
+              <img [src]="movie.poster_path | image">
+            </ion-card>
+          </ion-col>
         </ion-row>
       </ion-grid>
     </div>
     <div *ngSwitchDefault>
+      <ion-text *ngIf="favoriteMovies.length==0" color="primary">
+        <h1 class="no-elements">No hay peliculas en esta categoria</h1>
+      </ion-text>
       <ion-grid>
         <ion-row>
-          <div *ngFor="let movie of favoriteMovies">
-            <ion-col size="4">
-              <ion-card class="poster" (click)="searchDetails( movie.id, 'movie' )">
-                <img class="poster" [src]="movie.poster_path | image">
-              </ion-card>
-            </ion-col>
-          </div>
+          <ion-col size="4" *ngFor="let movie of favoriteMovies">
+            <ion-card (click)="searchDetails( movie.id, 'movie' )">
+              <img [src]="movie.poster_path | image">
+            </ion-card>
+          </ion-col>
         </ion-row>
       </ion-grid>
     </div>

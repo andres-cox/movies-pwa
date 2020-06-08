@@ -3,10 +3,14 @@ import { CommonModule } from '@angular/common';
 import { SlidesPosterComponent } from './slides-poster/slides-poster.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { DetailsComponent } from './details/details.component';
+import { IonicModule } from '@ionic/angular';
 
 
 
 @NgModule({
+  entryComponents: [
+    DetailsComponent
+  ],
   declarations: [
     SlidesPosterComponent,
     DetailsComponent
@@ -17,7 +21,8 @@ import { DetailsComponent } from './details/details.component';
   ],
   imports: [
     CommonModule,
-    PipesModule
+    PipesModule,
+    IonicModule
   ]
 })
 export class ComponentsModule { }

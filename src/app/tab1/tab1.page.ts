@@ -15,6 +15,7 @@ export class Tab1Page implements OnInit {
   popularTVShows: TVShow[] = [];
   netflixTVShows: TVShow[] = [];
   searching: boolean = false;
+  darkMode: boolean = true;
   results = [];
 
   slideOpts = {
@@ -24,7 +25,10 @@ export class Tab1Page implements OnInit {
 
   constructor(private moviesService: MoviesAPIService,
     private modalController: ModalController) { }
+
   ngOnInit() {
+    if (this.darkMode) { document.body.classList.toggle('dark'); }
+
     this.moviesService.getPopularMovies()
       .subscribe((res: ResultsTMDb) => {
         this.popularMovies = res.results;
@@ -105,6 +109,12 @@ export class Tab1Page implements OnInit {
     modal.present();
 
   }
+
+  changeDarkMode() {
+    this.darkMode = !this.darkMode;
+    document.body.classList.toggle('dark');
+  }
+
 
 
 }

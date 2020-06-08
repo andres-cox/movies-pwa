@@ -28,34 +28,33 @@ export class StorageService {
   }
 
   async loadMovies(listMoviesType: string) {
-    
-    const  res = await Storage.get({ key: `${listMoviesType}` });
+
+    const res = await Storage.get({ key: `${listMoviesType}` });
     switch (listMoviesType) {
       case 'favorites':
-          this.favoriteMovies = JSON.parse(res.value) || [];
-          return this.favoriteMovies;
+        this.favoriteMovies = JSON.parse(res.value) || [];
+        return this.favoriteMovies;
       case 'towatch':
-          this.watchListMovies = JSON.parse(res.value) || [];
-          return this.watchListMovies;
+        this.watchListMovies = JSON.parse(res.value) || [];
+        return this.watchListMovies;
       case 'seen':
-          this.seenMovies = JSON.parse(res.value) || [];
-          return this.seenMovies;
+        this.seenMovies = JSON.parse(res.value) || [];
+        return this.seenMovies;
       default:
         return
     }
   }
 
 
-  async saveMovieAs(listMoviesType:string, movie: MovieDetails) {
+  saveMovieAs(listMoviesType: string, movie: MovieDetails) {
 
-    console.log(this.favoriteMovies);
     let movies: MovieDetails[] = [];
     let exists = false;
     let message = '';
     switch (listMoviesType) {
       case 'favorites': movies = this.favoriteMovies; break;
-      case 'towatch':   movies = this.watchListMovies; break;
-      case 'seen':      movies = this.seenMovies; break;
+      case 'towatch': movies = this.watchListMovies; break;
+      case 'seen': movies = this.seenMovies; break;
       default: break;
     }
 
@@ -66,21 +65,39 @@ export class StorageService {
       }
     }
 
+    const listMessage = (listMoviesType == 'favorites') ? 'favoritos' : (listMoviesType == 'towatch') ? 'peliculas para ver' : 'vistos'
     if (exists) {
       movies = movies.filter(el => el.id !== movie.id);
-      message = `Removido de ${listMoviesType}`;
+      message = `Removido de ${listMessage}`;
     } else {
       movies.push(movie);
-      message = `Agregada a ${listMoviesType}`;
+      message = `Agregada a ${listMessage}`;
     }
     this.presentToast(message);
 
-    await Storage.set({
+    Storage.set({
       key: `${listMoviesType}`,
       value: JSON.stringify(movies)
     });
 
     return !exists;
+  }
+
+  async removeMovieFrom(listMoviesType: string, movie: MovieDetails) {
+    let movies: MovieDetails[] = [];
+    switch (listMoviesType) {
+      case 'favorites': movies = this.favoriteMovies; break;
+      case 'towatch': movies = this.watchListMovies; break;
+      case 'seen': movies = this.seenMovies; break;
+      default: break;
+    }
+
+    movies = movies.filter(el => el.id !== movie.id);
+
+    await Storage.set({
+      key: `${listMoviesType}`,
+      value: JSON.stringify(movies)
+    });
   }
 
   async movieExists(id, listMoviesType: string) {

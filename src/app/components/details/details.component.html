@@ -153,7 +153,7 @@
           </ion-col>
         </ion-row>
         <hr>
-        <ion-row *ngIf="!actor.biography == ''">
+        <ion-row *ngIf="!actor.biography">
           <ion-col size="12">
             <ion-label>{{ actor.biography | slice: 0: hide }}...</ion-label>
             <ion-label color="primary" (click)="hide = 5000" *ngIf="hide !== 5000">Leer más!</ion-label>
@@ -187,6 +187,7 @@
 
 </ion-content>
 
+<!-- FOOTER -->
 <ion-footer no-border>
   <ion-toolbar>
 
@@ -202,11 +203,11 @@
         <ion-label>Favorito</ion-label>
         <ion-icon slot="end" [name]="star"></ion-icon>
       </ion-button>
-      <ion-button (click)="toWatch(movie)">
+      <ion-button (click)="toWatch()">
         <ion-label>Para Ver</ion-label>
         <ion-icon slot="end" [name]="eye"></ion-icon>
       </ion-button>
-      <ion-button (click)="seenMovie(movie)">
+      <ion-button (click)="seenMovie()">
         <ion-label>Visto</ion-label>
         <ion-icon slot="end" [name]="checkMark"></ion-icon>
       </ion-button>

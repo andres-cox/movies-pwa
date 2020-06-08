@@ -25,7 +25,7 @@ export class DetailsComponent implements OnInit {
 
   animationGenre: boolean = false;
   animationActors: string[] = [];
-  actor = {};
+  actor: ActorDetails = {};
   movies: Movie[] = [];
   year;
 

@@ -1,7 +1,11 @@
 <ion-header>
+
+  <!-- SEARCHBAR -->
   <ion-toolbar>
     <ion-searchbar mode='ios' placeholder="Buscar Pelicula, Serie, Actor/Actriz" (ionChange)="onSearch($event)"
       [debounce]="700"></ion-searchbar>
+    <ion-icon slot="end" name="moon"></ion-icon>
+    <ion-toggle slot="end" [ngModel]="darkMode" (ionChange)="changeDarkMode()"></ion-toggle>
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -16,7 +20,7 @@
   <ion-grid fixed>
     <ion-row>
       <ion-col size="6" *ngFor="let result of results">
-
+        <!-- IF THERE IS A PERSON -->
         <ng-container *ngIf="result.media_type === 'person'; else movieTvshow">
           <ion-card (click)="searchDetails(result.id, result.media_type )">
             <img class="no-image" *ngIf="!result.profile_path" src="/assets/no-avatar.jpg">
@@ -30,7 +34,7 @@
           </ion-card>
         </ng-container>
 
-
+        <!-- IF THERE IS MOVIE OR TVSHOW -->
         <ng-template #movieTvshow>
           <ion-card (click)="searchDetails(result.id, result.media_type )">
             <img class="no-image" *ngIf="!result.poster_path" src="/assets/no-image-banner.jpg">
@@ -59,7 +63,7 @@
       </ion-row>
     </ion-grid>
 
-    <div *ngIf="popularMovies.length == 0">
+    <!-- <div *ngIf="popularMovies.length == 0">
       <ion-slides [options]="slideOpts">
         <ion-slide *ngFor="let item of [0,0,0,0]">
           <ion-card class="poster">
@@ -67,7 +71,7 @@
           </ion-card>
         </ion-slide>
       </ion-slides>
-    </div>
+    </div> -->
 
     <app-slides-poster mediaType="movie" [movies]="popularMovies" (loadMore)="loadMore('popularMovies')">
     </app-slides-poster>
@@ -80,7 +84,7 @@
       </ion-row>
     </ion-grid>
 
-    <div *ngIf="popularTVShows.length == 0">
+    <!-- <div *ngIf="popularTVShows.length == 0">
       <ion-slides [options]="slideOpts">
         <ion-slide *ngFor="let item of [0,0,0,0]">
           <ion-card class="poster">
@@ -88,7 +92,7 @@
           </ion-card>
         </ion-slide>
       </ion-slides>
-    </div>
+    </div> -->
 
     <app-slides-poster mediaType="tvshow" [tvShows]="popularTVShows" (loadMore)="loadMore('popularTVShows')">
     </app-slides-poster>

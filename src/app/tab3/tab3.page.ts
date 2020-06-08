@@ -23,15 +23,12 @@ export class Tab3Page {
 
   async segmentChanged(e) {
     this.typeListMovies = e.detail.value;
-    // console.log(event);
-    // this.favoriteMovies = await this.storageService.loadMovies(`${event.detail.value}`);
-    // console.log(this.favoriteMovies);
-    console.log(event)
   }
   async ionViewWillEnter() {
     this.favoriteMovies = await this.storageService.loadMovies('favorites');
     this.watchListMovies = await this.storageService.loadMovies('towatch');
     this.seenMovies = await this.storageService.loadMovies('seen');
+    console.log(this.favoriteMovies);
   }
 
   async searchDetails(id: string, mediaType: string) {
@@ -42,6 +39,14 @@ export class Tab3Page {
         mediaType
       }
     });
-    modal.present();
+    await modal.present();
+
+    modal.onWillDismiss().then(e => { this.ionViewWillEnter() })
+  }
+
+  seenMovie(movie) {
+    this.storageService.saveMovieAs('seen', movie);
+    this.storageService.removeMovieFrom('towatch', movie);
+    this.ionViewWillEnter();
   }
 }
