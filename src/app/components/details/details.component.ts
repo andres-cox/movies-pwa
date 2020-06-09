@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MoviesAPIService } from 'src/app/services/movies-api.service';
-import { MovieDetails, Cast, TVShowDetails, ActorDetails, Movie } from 'src/app/interfaces/interfaces';
+import { MovieDetails, Cast, TVShowDetails, ActorDetails, Movie, TVShow } from 'src/app/interfaces/interfaces';
 import { ModalController } from '@ionic/angular';
 import { StorageService } from 'src/app/services/storage.service';
+import { ConsoleReporter } from 'jasmine';
 
 @Component({
   selector: 'app-details',
@@ -27,6 +28,7 @@ export class DetailsComponent implements OnInit {
   animationActors: string[] = [];
   actor: ActorDetails = {};
   movies: Movie[] = [];
+  tvshows = [];
   year;
 
   hide = 250;
@@ -80,6 +82,12 @@ export class DetailsComponent implements OnInit {
         this.moviesService.getActorMovies(this.id)
           .subscribe(resp => {
             this.movies = resp.results;
+          });
+
+        this.moviesService.getActorTVShows(this.id)
+          .subscribe(resp => {
+            this.tvshows = resp.cast;
+            console.log(resp)
           });
         break;
 

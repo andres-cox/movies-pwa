@@ -89,6 +89,10 @@ export class MoviesAPIService {
     return this.runQuery<ResultsTMDb>(`/discover/movie?&with_cast=${id}&sort_by=popularity.desc`);
   }
 
+  getActorTVShows(id: string) {
+    return this.runQuery<ResultsTMDb>(`/person/${id}/tv_credits?&sort_by=popularity.desc`);
+  }
+
   multiSearch(text: string) {
     return this.runQuery<ResultsTMDb>(`/search/multi?&page=1&include_adult=false&query=${text}`);
   }
