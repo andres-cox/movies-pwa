@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { StorageService } from '../services/storage.service';
 import { Movie, MovieDetails } from '../interfaces/interfaces';
 import { DetailsComponent } from '../components/details/details.component';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonSlides } from '@ionic/angular';
 
 
 @Component({
@@ -16,20 +16,38 @@ export class Tab3Page {
   seenMovies: MovieDetails[] = [];
   typeListMovies: string;
 
+  @ViewChild('slides') selectedSlide: IonSlides;
+  segment = 0;
+  segments = ['towatch', 'favorites', 'seen'];
+
+  slidesOpts = {
+    initialSlide: 0,
+    speed: 400,
+    slidesPerView: 1,
+  };
+
   constructor(
     private storageService: StorageService,
     private modalController: ModalController
   ) { }
 
-  async segmentChanged(e) {
-    this.typeListMovies = e.detail.value;
-  }
   async ionViewWillEnter() {
     this.favoriteMovies = await this.storageService.loadMovies('favorites');
     this.watchListMovies = await this.storageService.loadMovies('towatch');
     this.seenMovies = await this.storageService.loadMovies('seen');
     console.log(this.favoriteMovies);
   }
+
+  async segmentChanged(e) {
+    this.typeListMovies = this.segments[e.detail.value];
+    await this.selectedSlide.slideTo(this.segment);
+  }
+
+  async slideChanged(slides: IonSlides) {
+    this.selectedSlide = slides;
+    slides.getActiveIndex().then(selectedIndex => this.segment = selectedIndex)
+  }
+
 
   async searchDetails(id: string, mediaType: string) {
     const modal = await this.modalController.create({

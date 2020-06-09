@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MoviesAPIService } from 'src/app/services/movies-api.service';
-import { MovieDetails, Cast, TVShowDetails, ActorDetails, Movie, TVShow } from 'src/app/interfaces/interfaces';
+import { MovieDetails, TVShowDetails, ActorDetails, Movie, TVShow } from 'src/app/interfaces/interfaces';
 import { ModalController } from '@ionic/angular';
 import { StorageService } from 'src/app/services/storage.service';
-import { ConsoleReporter } from 'jasmine';
 
 @Component({
   selector: 'app-details',
@@ -86,13 +85,23 @@ export class DetailsComponent implements OnInit {
 
         this.moviesService.getActorTVShows(this.id)
           .subscribe(resp => {
-            this.tvshows = resp.cast;
-            console.log(resp)
+            this.tvshows = resp.cast.sort(this.sortByProperty('popularity')).filter(el => { if (el.character == 'Himself' || el.character == 'Herself' || el.character == 'Guest' || el.character == '') { return } else { return el } });
+            console.log(this.id, this.tvshows);
           });
-        break;
 
+        break;
       default:
         break;
+    }
+  }
+
+  sortByProperty(property) {
+    return function (a, b) {
+      if (a[property] > b[property])
+        return -1;
+      else if (a[property] < b[property])
+        return 1;
+      return 0;
     }
   }
 

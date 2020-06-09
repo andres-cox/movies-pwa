@@ -103,10 +103,11 @@
       </ion-grid>
 
 
-      <ion-grid fixed>
+      <ion-grid fixed *ngIf="tvshow.overview">
         <ion-row>
           <ion-col size=12>
-            <ion-label>{{ tvshow.overview | slice: 0: hide }}...</ion-label>
+            <ion-label>{{ tvshow.overview | slice: 0: hide }}</ion-label>
+            <ion-label *ngIf="hide !== 5000">...</ion-label>
             <ion-label color="primary" (click)="hide = 5000" *ngIf="hide !== 5000">Leer más!</ion-label>
           </ion-col>
         </ion-row>
@@ -180,7 +181,7 @@
         </ion-slide>
       </ion-slides>
 
-      <ion-grid fixed>
+      <ion-grid fixed *ngIf="tvshows.length">
         <ion-row>
           <ion-col>
             <ion-label>Series</ion-label>

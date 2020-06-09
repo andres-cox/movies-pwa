@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ResultsTMDb, MovieDetails, CreditsResponse, ResultGenres, TVShowDetails, ActorDetails } from '../interfaces/interfaces';
+import { ResultsTMDb, MovieDetails, CreditsResponse, ResultGenres, TVShowDetails, PersonCredits } from '../interfaces/interfaces';
 import { environment } from 'src/environments/environment';
 
 const URL = environment.url;
@@ -86,11 +86,11 @@ export class MoviesAPIService {
   }
 
   getActorMovies(id: string) {
-    return this.runQuery<ResultsTMDb>(`/discover/movie?&with_cast=${id}&sort_by=popularity.desc`);
+    return this.runQuery<ResultsTMDb>(`/discover/movie?with_cast=${id}&sort_by=popularity.desc`);
   }
 
   getActorTVShows(id: string) {
-    return this.runQuery<ResultsTMDb>(`/person/${id}/tv_credits?&sort_by=popularity.desc`);
+    return this.runQuery<PersonCredits>(`/person/${id}/tv_credits?`);
   }
 
   multiSearch(text: string) {

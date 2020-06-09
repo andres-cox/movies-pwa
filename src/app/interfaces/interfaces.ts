@@ -114,6 +114,12 @@ export interface TVShowDetails {
     vote_count?: number;
 }
 
+export interface PersonCredits {
+    cast: Cast[];
+    crew: Crew[];
+    id: number;
+}
+
 interface Season {
     air_date: string;
     episode_count: number;
