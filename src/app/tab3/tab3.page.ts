@@ -14,7 +14,6 @@ export class Tab3Page {
   favoriteMovies: MovieDetails[] = [];
   watchListMovies: MovieDetails[] = [];
   seenMovies: MovieDetails[] = [];
-  typeListMovies: string;
 
   @ViewChild('slides') selectedSlide: IonSlides;
   segment = 0;
@@ -35,11 +34,9 @@ export class Tab3Page {
     this.favoriteMovies = await this.storageService.loadMovies('favorites');
     this.watchListMovies = await this.storageService.loadMovies('towatch');
     this.seenMovies = await this.storageService.loadMovies('seen');
-    console.log(this.favoriteMovies);
   }
 
   async segmentChanged(e) {
-    this.typeListMovies = this.segments[e.detail.value];
     await this.selectedSlide.slideTo(this.segment);
   }
 
