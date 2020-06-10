@@ -43,6 +43,11 @@ export class Tab1Page implements OnInit {
       .subscribe((res: ResultsTMDb) => {
         this.netflixTVShows = res.results;
       });
+
+    this.moviesService.getMovieRecommendations('23')
+      .subscribe((res: ResultsTMDb) => {
+        console.log(res.results)
+      });
   }
 
   loadMore(media: string) {

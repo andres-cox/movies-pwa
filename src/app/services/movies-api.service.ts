@@ -93,6 +93,10 @@ export class MoviesAPIService {
     return this.runQuery<PersonCredits>(`/person/${id}/tv_credits?`);
   }
 
+  getMovieRecommendations(id: string) {
+    return this.runQuery<ResultsTMDb>(`/movie/${id}/recommendations?`);
+  }
+
   multiSearch(text: string) {
     return this.runQuery<ResultsTMDb>(`/search/multi?&page=1&include_adult=false&query=${text}`);
   }
