@@ -63,18 +63,39 @@
       </ion-row>
     </ion-grid>
 
-    <!-- <div *ngIf="popularMovies.length == 0">
-      <ion-slides [options]="slideOpts">
-        <ion-slide *ngFor="let item of [0,0,0,0]">
-          <ion-card class="poster">
-            <ion-skeleton-text animated style="width: 100%; height: 100%;"></ion-skeleton-text>
-          </ion-card>
-        </ion-slide>
-      </ion-slides>
-    </div> -->
 
     <app-slides-poster mediaType="movie" [movies]="popularMovies" (loadMore)="loadMore('popularMovies')">
     </app-slides-poster>
+
+    <div *ngIf="recommendationMovies1.length != 0">
+
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col>
+            <h3>De tus favoritos</h3>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+
+      <app-slides-poster mediaType="movie" [movies]="recommendationMovies1">
+      </app-slides-poster>
+    </div>
+
+    <div *ngIf="recommendationMovies2.length != 0">
+
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col>
+            <h3>De tus favoritos</h3>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+
+      <app-slides-poster mediaType="movie" [movies]="recommendationMovies2">
+      </app-slides-poster>
+    </div>
 
     <ion-grid fixed>
       <ion-row>
@@ -84,15 +105,6 @@
       </ion-row>
     </ion-grid>
 
-    <!-- <div *ngIf="popularTVShows.length == 0">
-      <ion-slides [options]="slideOpts">
-        <ion-slide *ngFor="let item of [0,0,0,0]">
-          <ion-card class="poster">
-            <ion-skeleton-text animated style="width: 100%; height: 100%;"></ion-skeleton-text>
-          </ion-card>
-        </ion-slide>
-      </ion-slides>
-    </div> -->
 
     <app-slides-poster mediaType="tvshow" [tvShows]="popularTVShows" (loadMore)="loadMore('popularTVShows')">
     </app-slides-poster>

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MoviesAPIService } from '../services/movies-api.service';
-import { ResultsTMDb, Movie, TVShow } from '../interfaces/interfaces';
+import { ResultsTMDb, Movie, TVShow, MovieDetails } from '../interfaces/interfaces';
 import { DetailsComponent } from '../components/details/details.component';
 import { ModalController } from '@ionic/angular';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-tab1',
@@ -18,13 +19,20 @@ export class Tab1Page implements OnInit {
   darkMode: boolean = true;
   results = [];
 
+  randomFavoriteMovie1;
+  randomFavoriteMovie2;
+  recommendationMovies1: Movie[] = [];
+  recommendationMovies2: Movie[] = [];
+
+
   slideOpts = {
     slidesPerView: 3.3,
     freeMode: true
   }
 
   constructor(private moviesService: MoviesAPIService,
-    private modalController: ModalController) { }
+    private modalController: ModalController,
+    private storageService: StorageService) { }
 
   ngOnInit() {
     if (this.darkMode) { document.body.classList.toggle('dark'); }
@@ -44,9 +52,20 @@ export class Tab1Page implements OnInit {
         this.netflixTVShows = res.results;
       });
 
-    this.moviesService.getMovieRecommendations('23')
+    this.loadRecomendations();
+
+  }
+
+  async loadRecomendations() {
+    this.randomFavoriteMovie1 = await this.storageService.loadRandomFavoriteMovie();
+    this.randomFavoriteMovie2 = await this.storageService.loadRandomFavoriteMovie();
+    this.moviesService.getMovieRecommendations(this.randomFavoriteMovie1.id.toString())
       .subscribe((res: ResultsTMDb) => {
-        console.log(res.results)
+        this.recommendationMovies1 = res.results;
+      });
+    this.moviesService.getMovieRecommendations(this.randomFavoriteMovie2.id.toString())
+      .subscribe((res: ResultsTMDb) => {
+        this.recommendationMovies2 = res.results;
       });
   }
 

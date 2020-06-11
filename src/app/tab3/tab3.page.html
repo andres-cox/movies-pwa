@@ -45,8 +45,8 @@
       <ion-grid>
         <ion-row>
           <ion-col size="4" *ngFor="let movie of favoriteMovies">
-            <ion-card mode="md" (click)="searchDetails( movie.id, 'movie' )">
-              <img [src]="movie.poster_path | image">
+            <ion-card class="poster" mode="md" (click)="searchDetails( movie.id, 'movie' )">
+              <img class="poster" [src]="movie.poster_path | image">
             </ion-card>
           </ion-col>
         </ion-row>

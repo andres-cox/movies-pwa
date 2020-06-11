@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MoviesAPIService } from 'src/app/services/movies-api.service';
-import { MovieDetails, TVShowDetails, ActorDetails, Movie, TVShow } from 'src/app/interfaces/interfaces';
+import { MovieDetails, TVShowDetails, ActorDetails, Movie, TVShow, ResultsTMDb } from 'src/app/interfaces/interfaces';
 import { ModalController } from '@ionic/angular';
 import { StorageService } from 'src/app/services/storage.service';
 

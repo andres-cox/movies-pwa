@@ -19,6 +19,13 @@ export class StorageService {
     this.loadMovies('seen');
   }
 
+  async loadRandomFavoriteMovie() {
+    const test = await this.loadMovies('favorites');
+    const random = Math.floor(Math.random() * (test.length));
+    console.log(test, random);
+    return test[random];
+  }
+
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       message: message,
@@ -44,6 +51,7 @@ export class StorageService {
         return
     }
   }
+
 
 
   saveMovieAs(listMoviesType: string, movie: MovieDetails) {
