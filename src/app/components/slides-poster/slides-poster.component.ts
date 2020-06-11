@@ -16,6 +16,7 @@ export class SlidesPosterComponent implements OnInit {
   }
 
   @Input() mediaType: string;
+  @Input() pagerButton: boolean = true;
   @Input() movies: Movie[] = [];
   @Input() tvShows: TVShow[] = [];
   media: string;

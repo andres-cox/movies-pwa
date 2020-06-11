@@ -19,10 +19,8 @@ export class Tab1Page implements OnInit {
   darkMode: boolean = true;
   results = [];
 
-  randomFavoriteMovie1;
-  randomFavoriteMovie2;
-  recommendationMovies1: Movie[] = [];
-  recommendationMovies2: Movie[] = [];
+  randomFavoriteMovies: MovieDetails[] = [];
+  recommendationMovies = [];
 
 
   slideOpts = {
@@ -57,16 +55,18 @@ export class Tab1Page implements OnInit {
   }
 
   async loadRecomendations() {
-    this.randomFavoriteMovie1 = await this.storageService.loadRandomFavoriteMovie();
-    this.randomFavoriteMovie2 = await this.storageService.loadRandomFavoriteMovie();
-    this.moviesService.getMovieRecommendations(this.randomFavoriteMovie1.id.toString())
-      .subscribe((res: ResultsTMDb) => {
-        this.recommendationMovies1 = res.results;
-      });
-    this.moviesService.getMovieRecommendations(this.randomFavoriteMovie2.id.toString())
-      .subscribe((res: ResultsTMDb) => {
-        this.recommendationMovies2 = res.results;
-      });
+    for (let i = 0; i < 3; i++) {
+      this.randomFavoriteMovies[i] = await this.storageService.loadRandomFavoriteMovie();
+      if (i > 0) {
+        console.log(this.randomFavoriteMovies.some(el => el.id == this.randomFavoriteMovies[i].id))
+      }
+      console.log(this.randomFavoriteMovies[i]);
+      this.moviesService.getMovieRecommendations(this.randomFavoriteMovies[i].id.toString())
+        .subscribe((res: ResultsTMDb) => {
+          this.recommendationMovies.push(res.results);
+        });
+
+    }
   }
 
   loadMore(media: string) {

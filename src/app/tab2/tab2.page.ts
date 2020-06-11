@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MoviesAPIService } from '../services/movies-api.service';
 import { Movie, ResultsTMDb, Genre, ResultGenres } from '../interfaces/interfaces';
 import { DetailsComponent } from '../components/details/details.component';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonSlides } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
@@ -10,11 +10,47 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
+  @ViewChild('slidesGenres') slidesGenres: IonSlides;
+  @ViewChild('slidesYears') slidesYears: IonSlides;
   slideOptsGenres = {
     slidesPerView: 3,
+    grabCursor: true,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    breakpoints: {
+      540: {  //sm
+        slidesPerView: 5,
+      },
+      720: {  //md
+        slidesPerView: 6,
+      },
+      960: {  //lg
+        slidesPerView: 8,
+      },
+      1140: { //xl
+        slidesPerView: 12,
+      }
+    },
   }
   slideOptsYears = {
     slidesPerView: 4,
+    grabCursor: true,
+    breakpoints: {
+      540: {  //sm
+        slidesPerView: 6,
+      },
+      720: {  //md
+        slidesPerView: 8,
+      },
+      960: {  //lg
+        slidesPerView: 10,
+      },
+      1140: { //xl
+        slidesPerView: 16,
+      }
+    },
   }
   popularMovies: Movie[] = [];
   genres: Genre[] = [];
@@ -29,8 +65,8 @@ export class Tab2Page {
     private modalController: ModalController) { }
 
   ngOnInit(): void {
-    for (let i = 20; i > 0; i--) {
-      this.years.push(2000 + i);
+    for (let i = 30; i > 0; i--) {
+      this.years.push(1990 + i);
     }
     this.moviesService.getMoviesByGenreAndYear(this.genre, this.year)
       .subscribe((res: ResultsTMDb) => {
@@ -40,6 +76,14 @@ export class Tab2Page {
       .subscribe((res: ResultGenres) => {
         this.genres = res.genres;
       })
+  }
+
+  next(slides: string) {
+    (slides == 'years') ? this.slidesYears.slideNext() : this.slidesGenres.slideNext();
+  }
+
+  prev(slides: string) {
+    (slides == 'years') ? this.slidesYears.slidePrev() : this.slidesGenres.slidePrev();
   }
 
   changeYear(year) {

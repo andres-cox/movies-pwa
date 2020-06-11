@@ -21,12 +21,12 @@
     (ionSlideDidLoad)="slideChanged(slides)">
     <ion-slide class="slide">
       <ion-text *ngIf="watchListMovies.length==0" color="primary">
-        <h1 class="no-elements">No hay peliculas en esta categoria</h1>
+        <h1>No hay peliculas en esta categoria</h1>
       </ion-text>
 
-      <ion-grid>
+      <ion-grid fixed>
         <ion-row>
-          <ion-col size="4" *ngFor="let movie of watchListMovies">
+          <ion-col size="4" *ngFor="let movie of watchListMovies" size-lg="2" size-md="3">
             <ion-card class="poster" mode="md" (click)="searchDetails( movie.id, 'movie' )">
               <img class="poster" [src]="movie.poster_path | image">
             </ion-card>
@@ -39,12 +39,12 @@
     </ion-slide>
     <ion-slide>
       <ion-text *ngIf="favoriteMovies.length==0" color="primary">
-        <h1 class="no-elements">No hay peliculas en esta categoria</h1>
+        <h1>No hay peliculas en esta categoria</h1>
       </ion-text>
 
-      <ion-grid>
+      <ion-grid fixed>
         <ion-row>
-          <ion-col size="4" *ngFor="let movie of favoriteMovies">
+          <ion-col size="4" *ngFor="let movie of favoriteMovies" size-lg="2" size-md="3">
             <ion-card class="poster" mode="md" (click)="searchDetails( movie.id, 'movie' )">
               <img class="poster" [src]="movie.poster_path | image">
             </ion-card>
@@ -54,12 +54,12 @@
     </ion-slide>
     <ion-slide class="slide">
       <ion-text *ngIf="seenMovies.length==0" color="primary">
-        <h1 class="no-elements">No hay peliculas en esta categoria</h1>
+        <h1>No hay peliculas en esta categoria</h1>
       </ion-text>
 
-      <ion-grid>
+      <ion-grid fixed>
         <ion-row>
-          <ion-col size="4" *ngFor="let movie of seenMovies">
+          <ion-col size="4" *ngFor="let movie of seenMovies" size-lg="2" size-md="3">
             <ion-card class="poster" mode="md" (click)="searchDetails( movie.id, 'movie' )">
               <img class="poster" [src]="movie.poster_path | image">
             </ion-card>

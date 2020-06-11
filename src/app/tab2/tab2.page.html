@@ -1,21 +1,36 @@
 <ion-header>
   <ion-toolbar>
-    <ion-slides mode="md" [options]="slideOptsGenres">
+    <ion-slides #slidesGenres mode="md" [options]="slideOptsGenres">
       <ion-slide *ngFor="let genre of genres">
         <ion-chip (click)="changeGenre(genre)" color="primary">
           <ion-label class="chip-genre">{{ genre.name }}</ion-label>
         </ion-chip>
       </ion-slide>
     </ion-slides>
+    <button float-left ion-button color="primary" class="swiper-button-prev" (click)="prev('genres')">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+
+    </button>
+    <button float-right ion-button color="primary" class="swiper-button-next" (click)="next('genres')">
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+
+    </button>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-slides mode="md" [options]="slideOptsYears">
+    <ion-slides #slidesYears mode="md" [options]="slideOptsYears">
       <ion-slide *ngFor="let year of years">
         <ion-chip (click)="changeYear(year)" color="primary">
           <ion-label class="chip-year">{{ year }}</ion-label>
         </ion-chip>
       </ion-slide>
     </ion-slides>
+    <button float-left ion-button class="swiper-button-prev" (click)="prev('years')">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+
+    </button>
+    <button float-right ion-button class="swiper-button-next" (click)="next('years')">
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </button>
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -34,8 +49,8 @@
     </ion-row>
   </ion-grid>
   <ion-grid fixed>
-    <ion-row *ngFor="let movie of popularMovies">
-      <ion-col>
+    <ion-row>
+      <ion-col *ngFor="let movie of popularMovies" size="12" size-lg="4" size-md="6">
         <ion-card (click)="searchDetails(movie.id, 'movie')">
           <img class="no-image" *ngIf="!movie.poster_path" src="/assets/no-image-banner.jpg">
           <img *ngIf="movie.poster_path" [src]="movie.poster_path | image">

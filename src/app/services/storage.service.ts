@@ -22,7 +22,6 @@ export class StorageService {
   async loadRandomFavoriteMovie() {
     const test = await this.loadMovies('favorites');
     const random = Math.floor(Math.random() * (test.length));
-    console.log(test, random);
     return test[random];
   }
 
