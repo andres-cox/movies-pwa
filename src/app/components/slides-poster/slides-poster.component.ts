@@ -12,7 +12,20 @@ import { StorageService } from 'src/app/services/storage.service';
 export class SlidesPosterComponent implements OnInit {
   slideOpts = {
     slidesPerView: 3.3,
-    freeMode: true
+    freeMode: true,
+    direction: 'horizontal',
+    mousewheel: true,
+    breakpoints: {
+      720: {  //md
+        slidesPerView: 5.3,
+      },
+      960: {  //lg
+        slidesPerView: 7.3,
+      },
+      1140: { //xl
+        slidesPerView: 9.3,
+      }
+    },
   }
 
   @Input() mediaType: string;

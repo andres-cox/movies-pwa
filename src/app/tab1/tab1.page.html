@@ -8,6 +8,7 @@
     <ion-toggle slot="end" [ngModel]="darkMode" (ionChange)="changeDarkMode()"></ion-toggle>
   </ion-toolbar>
 </ion-header>
+
 <ion-content>
   <ion-grid *ngIf="searching">
     <ion-row>
@@ -19,7 +20,7 @@
 
   <ion-grid fixed>
     <ion-row>
-      <ion-col size="6" *ngFor="let result of results">
+      <ion-col size="6" size-lg="2" size-md="3" *ngFor="let result of results">
         <!-- IF THERE IS A PERSON -->
         <ng-container *ngIf="result.media_type === 'person'; else movieTvshow">
           <ion-card (click)="searchDetails(result.id, result.media_type )">
@@ -61,11 +62,15 @@
           <h3>Películas Populares</h3>
         </ion-col>
       </ion-row>
+      <ion-row>
+        <ion-col>
+          <app-slides-poster mediaType="movie" [movies]="popularMovies" (loadMore)="loadMore('popularMovies')">
+          </app-slides-poster>
+        </ion-col>
+      </ion-row>
     </ion-grid>
 
 
-    <app-slides-poster mediaType="movie" [movies]="popularMovies" (loadMore)="loadMore('popularMovies')">
-    </app-slides-poster>
 
     <ion-grid fixed>
       <ion-row>
@@ -73,11 +78,15 @@
           <h3>Series Populares</h3>
         </ion-col>
       </ion-row>
+
+      <ion-row>
+        <ion-col>
+
+          <app-slides-poster mediaType="tvshow" [tvShows]="popularTVShows" (loadMore)="loadMore('popularTVShows')">
+          </app-slides-poster>
+        </ion-col>
+      </ion-row>
     </ion-grid>
-
-
-    <app-slides-poster mediaType="tvshow" [tvShows]="popularTVShows" (loadMore)="loadMore('popularTVShows')">
-    </app-slides-poster>
 
 
     <!-- <div *ngIf="recommendationMovies.length != 0"> -->
@@ -86,11 +95,16 @@
         <ion-row>
           <ion-col>
             <h3>Por que te gusto "{{this.randomFavoriteMovies[i].title}}"</h3>
+
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <app-slides-poster mediaType="movie" [movies]="moviesItem" [pagerButton]=false>
+            </app-slides-poster>
           </ion-col>
         </ion-row>
       </ion-grid>
-      <app-slides-poster mediaType="movie" [movies]="moviesItem" [pagerButton]=false>
-      </app-slides-poster>
     </div>
     <!-- </div> -->
 
@@ -102,10 +116,14 @@
           <h3>Series de Netflix</h3>
         </ion-col>
       </ion-row>
+      <ion-row>
+        <ion-col>
+          <app-slides-poster mediaType="tvshow" [tvShows]="netflixTVShows"
+            (loadMore)="loadMore('popularNetflixTVShows')">
+          </app-slides-poster>
+        </ion-col>
+      </ion-row>
     </ion-grid>
-
-    <app-slides-poster mediaType="tvshow" [tvShows]="netflixTVShows" (loadMore)="loadMore('popularNetflixTVShows')">
-    </app-slides-poster>
   </div>
 
 </ion-content>

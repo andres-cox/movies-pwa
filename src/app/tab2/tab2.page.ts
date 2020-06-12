@@ -32,7 +32,7 @@ export class Tab2Page {
       1140: { //xl
         slidesPerView: 12,
       }
-    },
+    }
   }
   slideOptsYears = {
     slidesPerView: 4,
