@@ -67,3 +67,10 @@
 ion-button{
 font-size: 0.7em;
 }
+
+@media screen and (min-width: 720px) { //lg screen
+
+    .backdrop-image{
+        width: 100%;
+    }
+}

@@ -6,8 +6,8 @@
         <h2> {{ movie.title }} ({{ year }}) </h2>
       </ion-label>
 
-      <img *ngIf="!movie.backdrop_path" src="/assets/no-image-banner.jpg">
-      <img *ngIf="movie.backdrop_path" [src]="movie.backdrop_path | image">
+      <img class="backdrop-image" *ngIf="!movie.backdrop_path" src="/assets/no-image-banner.jpg">
+      <img class="backdrop-image" *ngIf="movie.backdrop_path" [src]="movie.backdrop_path | image">
 
       <ion-grid>
         <ion-row>

@@ -16,7 +16,11 @@ export class DetailsComponent implements OnInit {
   slideOptCasting = {
     slidesPerView: 3.3,
     freeMode: true,
-    spaceBetween: 0
+    breakpoints: {
+      720: {  //md
+        slidesPerView: 5.3,
+      }
+    }
   };
 
   movie: MovieDetails = {};

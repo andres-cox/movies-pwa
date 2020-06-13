@@ -1,5 +1,6 @@
 <ion-header>
   <ion-toolbar>
+
     <ion-slides #slidesGenres mode="md" [options]="slideOptsGenres">
       <ion-slide *ngFor="let genre of genres">
         <ion-chip (click)="changeGenre(genre)" color="primary">

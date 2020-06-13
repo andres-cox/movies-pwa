@@ -13,8 +13,6 @@ export class SlidesPosterComponent implements OnInit {
   slideOpts = {
     slidesPerView: 3.3,
     freeMode: true,
-    direction: 'horizontal',
-    mousewheel: true,
     breakpoints: {
       720: {  //md
         slidesPerView: 5.3,
@@ -25,7 +23,7 @@ export class SlidesPosterComponent implements OnInit {
       1140: { //xl
         slidesPerView: 9.3,
       }
-    },
+    }
   }
 
   @Input() mediaType: string;
