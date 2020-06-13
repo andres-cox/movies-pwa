@@ -26,9 +26,9 @@ ion-card-content{
     flex-grow: 6;
 }
 
-.swiper-button-prev, .swiper-button-next{
-    background-color: transparent;
-    background-image: none;
-    font-size: 1.5em;
+@media screen and (max-width: 992px) { //lg screen
 
+    .swiper-button-prev, .swiper-button-next{
+        display: none;
+    }
 }

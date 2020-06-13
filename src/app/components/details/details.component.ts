@@ -110,8 +110,10 @@ export class DetailsComponent implements OnInit {
   }
 
   favorite() {
-    const exists = this.storageService.saveMovieAs('favorites', this.movie);
-    this.star = (exists) ? 'star' : 'star-outline';
+    const existseen = this.storageService.saveMovieAs('seen', this.movie);
+    const existfav = this.storageService.saveMovieAs('favorites', this.movie);
+    this.checkMark = (existfav) ? 'checkmark-circle' : 'checkmark-circle-outline';
+    this.star = (existseen) ? 'star' : 'star-outline';
   }
 
   toWatch() {

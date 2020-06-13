@@ -17,7 +17,7 @@
 
 
 <ion-content>
-  <ion-slides #slides pager="false" [options]="slideOpts" (ionSlideDidChange)="slideChanged(slides)"
+  <ion-slides #slides pager="false" [options]="slidesOpts" (ionSlideDidChange)="slideChanged(slides)"
     (ionSlideDidLoad)="slideChanged(slides)">
     <ion-slide class="slide">
       <ion-text *ngIf="watchListMovies.length==0" color="primary">

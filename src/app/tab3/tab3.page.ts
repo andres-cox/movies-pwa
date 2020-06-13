@@ -16,12 +16,11 @@ export class Tab3Page {
   seenMovies: MovieDetails[] = [];
 
   @ViewChild('slides') selectedSlide: IonSlides;
-  segment = 0;
+  segment = 1;
   segments = ['towatch', 'favorites', 'seen'];
 
   slidesOpts = {
-    initialSlide: 0,
-    speed: 400,
+    initialSlide: 1,
     slidesPerView: 1,
   };
 

@@ -18,6 +18,7 @@ export class Tab1Page implements OnInit {
   searching: boolean = false;
   darkMode: boolean = true;
   results = [];
+  seenIndexMovies: any = [];
 
   randomFavoriteMovies: MovieDetails[] = [];
   recommendationMovies = [];
@@ -35,37 +36,47 @@ export class Tab1Page implements OnInit {
   ngOnInit() {
     if (this.darkMode) { document.body.classList.toggle('dark'); }
 
+    this.loadSeenMovies();
+    // this.seenIndexMovies = this.seenIndexMovies.map(el => el.id);
+    // this.seenIndexMovies.subscribe(res => console.log(res));
     this.moviesService.getPopularMovies()
       .subscribe((res: ResultsTMDb) => {
-        this.popularMovies = res.results;
+        this.popularMovies = res.results.filter(res => !this.seenIndexMovies.includes(res.id));
       });
 
     this.moviesService.getPopularTVShows()
       .subscribe((res: ResultsTMDb) => {
-        this.popularTVShows = res.results;
+        this.popularTVShows = res.results.filter(res => !this.seenIndexMovies.includes(res.id));
       });
 
     this.moviesService.getNetflixTVShows()
       .subscribe((res: ResultsTMDb) => {
-        this.netflixTVShows = res.results;
+        this.netflixTVShows = res.results.filter(res => !this.seenIndexMovies.includes(res.id));
       });
 
     this.loadRecomendations();
 
   }
 
+  async doRefresh(event) {
+    this.recommendationMovies = [];
+    this.loadRecomendations();
+
+    event.target.complete();
+  }
+
+  async loadSeenMovies() {
+    const seenMovies = await this.storageService.loadMovies('seen');
+    this.seenIndexMovies = seenMovies.map(el => el.id);
+  }
+
   async loadRecomendations() {
     for (let i = 0; i < 3; i++) {
       this.randomFavoriteMovies[i] = await this.storageService.loadRandomFavoriteMovie();
-      if (i > 0) {
-        console.log(this.randomFavoriteMovies.some(el => el.id == this.randomFavoriteMovies[i].id))
-      }
-      console.log(this.randomFavoriteMovies[i]);
       this.moviesService.getMovieRecommendations(this.randomFavoriteMovies[i].id.toString())
         .subscribe((res: ResultsTMDb) => {
-          this.recommendationMovies.push(res.results);
+          this.recommendationMovies.push(res.results.filter(res => !this.seenIndexMovies.includes(res.id)));
         });
-
     }
   }
 

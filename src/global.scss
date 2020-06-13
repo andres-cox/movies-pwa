@@ -65,14 +65,23 @@
     }
 
     .swiper-container {
-
         overflow-x: scroll;
     }
 
     .swiper-container::-webkit-scrollbar {
-        width: 8px;     /* Tamaño del scroll en vertical */
-        //height: 8px;    /* Tamaño del scroll en horizontal */
-        // display: none;  /* Ocultar scroll */
+        display: none;
+    }
+
+    .swiper-button-prev, .swiper-button-next{
+        background-color: transparent;
+		background-image: none;
+        color: gray;
+        font-size: 1.5em;
+    
+    }
+    ion-toolbar{
+        --padding-start: 2em;
+        --padding-end: 2em;
     }
 
 }
