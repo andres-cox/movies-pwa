@@ -22,7 +22,7 @@ export class MoviesAPIService {
 
   private runQuery<T>(query: string) {
     query = URL + query;
-    query += `&api_key=${apiKey}&language=es&include_image_language=es`;
+    query += `&api_key=${apiKey}&language=es&include_image_language=es&include_adult=false`;
 
     return this.http.get<T>(query);
 
@@ -30,7 +30,7 @@ export class MoviesAPIService {
 
   getPopularMovies() {
     this.popularMoviesPage++;
-    const query = `/discover/movie?&page=${this.popularMoviesPage}&sort_by=popularity.desc`;
+    const query = `/discover/movie?&page=${this.popularMoviesPage}&sort_by=popularity.desc&vote_average.gte=5`;
 
     return this.runQuery<ResultsTMDb>(query);
   }

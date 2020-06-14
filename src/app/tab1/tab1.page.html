@@ -2,8 +2,12 @@
 
   <!-- SEARCHBAR -->
   <ion-toolbar>
-    <ion-searchbar mode='ios' placeholder="Buscar Pelicula, Serie, Actor/Actriz" (ionChange)="onSearch($event)"
-      [debounce]="700"></ion-searchbar>
+    <!-- <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons> -->
+    <ion-searchbar mode='md' placeholder="Buscar Pelicula, Serie, Actor/Actriz" (ionChange)="onSearch($event)"
+      [debounce]="700" showCancelButton="focus"></ion-searchbar>
+
     <ion-icon slot="end" name="moon"></ion-icon>
     <ion-toggle slot="end" [ngModel]="darkMode" (ionChange)="changeDarkMode()"></ion-toggle>
   </ion-toolbar>
@@ -11,7 +15,7 @@
 
 
 <ion-content>
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullFactor="0.5" pullMin="100" pullMax="200">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullFactor="0.5" pullMin="50" pullMax="170">
     <ion-refresher-content pullingIcon="reload-outline" refreshingSpinner="bubbles">
     </ion-refresher-content>
   </ion-refresher>
@@ -77,21 +81,6 @@
 
 
 
-    <ion-grid fixed>
-      <ion-row>
-        <ion-col>
-          <h3>Series Populares</h3>
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col>
-
-          <app-slides-poster mediaType="tvshow" [tvShows]="popularTVShows" (loadMore)="loadMore('popularTVShows')">
-          </app-slides-poster>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
 
 
     <!-- <div *ngIf="recommendationMovies.length != 0"> -->
@@ -112,6 +101,21 @@
     </div>
     <!-- </div> -->
 
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col>
+          <h3>Series Populares</h3>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+
+          <app-slides-poster mediaType="tvshow" [tvShows]="popularTVShows" (loadMore)="loadMore('popularTVShows')">
+          </app-slides-poster>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
 
     <ion-grid fixed>

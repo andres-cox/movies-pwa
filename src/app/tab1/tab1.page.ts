@@ -37,11 +37,10 @@ export class Tab1Page implements OnInit {
     if (this.darkMode) { document.body.classList.toggle('dark'); }
 
     this.loadSeenMovies();
-    // this.seenIndexMovies = this.seenIndexMovies.map(el => el.id);
-    // this.seenIndexMovies.subscribe(res => console.log(res));
     this.moviesService.getPopularMovies()
       .subscribe((res: ResultsTMDb) => {
         this.popularMovies = res.results.filter(res => !this.seenIndexMovies.includes(res.id));
+        console.log(this.popularMovies);
       });
 
     this.moviesService.getPopularTVShows()
@@ -87,7 +86,6 @@ export class Tab1Page implements OnInit {
           .subscribe(resp => {
             const arrTemp = [...this.popularMovies, ...resp.results];
             this.popularMovies = arrTemp;
-            console.log(resp);
           });
         break;
       case 'popularTVShows':
