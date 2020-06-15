@@ -5,8 +5,8 @@
     <!-- <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons> -->
-    <ion-searchbar mode='md' placeholder="Buscar Pelicula, Serie, Actor/Actriz" (ionChange)="onSearch($event)"
-      [debounce]="700" showCancelButton="focus"></ion-searchbar>
+    <ion-searchbar #searchBar mode='md' placeholder="Buscar Pelicula, Serie, Actor/Actriz"
+      (ionChange)="onSearch($event)" [debounce]="700"></ion-searchbar>
 
     <ion-icon slot="end" name="moon"></ion-icon>
     <ion-toggle slot="end" [ngModel]="darkMode" (ionChange)="changeDarkMode()"></ion-toggle>

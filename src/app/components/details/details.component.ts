@@ -90,7 +90,6 @@ export class DetailsComponent implements OnInit {
         this.moviesService.getActorTVShows(this.id)
           .subscribe(resp => {
             this.tvshows = resp.cast.sort(this.sortByProperty('popularity')).filter(el => { if (el.character == 'Himself' || el.character == 'Herself' || el.character == 'Guest' || el.character == '') { return } else { return el } });
-            console.log(this.id, this.tvshows);
           });
 
         break;

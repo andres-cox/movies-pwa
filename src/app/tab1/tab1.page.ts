@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MoviesAPIService } from '../services/movies-api.service';
 import { ResultsTMDb, Movie, TVShow, MovieDetails } from '../interfaces/interfaces';
 import { DetailsComponent } from '../components/details/details.component';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonSearchbar } from '@ionic/angular';
 import { StorageService } from '../services/storage.service';
 
 @Component({
@@ -12,6 +12,7 @@ import { StorageService } from '../services/storage.service';
 })
 export class Tab1Page implements OnInit {
 
+  @ViewChild('searchBar') searchBar: IonSearchbar;
   popularMovies: Movie[] = [];
   popularTVShows: TVShow[] = [];
   netflixTVShows: TVShow[] = [];
@@ -40,7 +41,6 @@ export class Tab1Page implements OnInit {
     this.moviesService.getPopularMovies()
       .subscribe((res: ResultsTMDb) => {
         this.popularMovies = res.results.filter(res => !this.seenIndexMovies.includes(res.id));
-        console.log(this.popularMovies);
       });
 
     this.moviesService.getPopularTVShows()
@@ -112,6 +112,8 @@ export class Tab1Page implements OnInit {
   onSearch(event) {
     const searchText = event.detail.value;
 
+    this.searchBar.showCancelButton = (event.detail.value != '') ? 'always' : 'never';
+
     if (searchText.length === 0) {
       this.searching = false;
       this.results = [];
@@ -124,7 +126,6 @@ export class Tab1Page implements OnInit {
       .subscribe(resp => {
         this.results = resp.results;
         this.searching = false;
-        console.log(this.results)
       })
 
   }
