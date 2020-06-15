@@ -23,6 +23,7 @@ export class Tab1Page implements OnInit {
 
   randomFavoriteMovies: MovieDetails[] = [];
   recommendationMovies = [];
+  similarMovies = [];
 
 
   slideOpts = {
@@ -74,7 +75,11 @@ export class Tab1Page implements OnInit {
       this.randomFavoriteMovies[i] = await this.storageService.loadRandomFavoriteMovie();
       this.moviesService.getMovieRecommendations(this.randomFavoriteMovies[i].id.toString())
         .subscribe((res: ResultsTMDb) => {
-          this.recommendationMovies.push(res.results.filter(res => !this.seenIndexMovies.includes(res.id)));
+          this.recommendationMovies[i] = res.results.filter(res => !this.seenIndexMovies.includes(res.id));
+        });
+      this.moviesService.getMovieSimilar(this.randomFavoriteMovies[i].id.toString())
+        .subscribe((res: ResultsTMDb) => {
+          this.similarMovies[i] = res.results.filter(res => !this.seenIndexMovies.includes(res.id));
         });
     }
   }

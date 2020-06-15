@@ -79,12 +79,7 @@
       </ion-row>
     </ion-grid>
 
-
-
-
-
-    <!-- <div *ngIf="recommendationMovies.length != 0"> -->
-    <div *ngFor="let moviesItem of recommendationMovies; let i=index">
+    <div *ngFor="let moviesItem of [0,0,0]; let i=index">
       <ion-grid fixed>
         <ion-row>
           <ion-col>
@@ -93,7 +88,13 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <app-slides-poster mediaType="movie" [movies]="moviesItem" [pagerButton]=false>
+            <app-slides-poster mediaType="movie" [movies]="recommendationMovies[i]" [pagerButton]=false>
+            </app-slides-poster>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <app-slides-poster mediaType="movie" [movies]="similarMovies[i]" [pagerButton]=false>
             </app-slides-poster>
           </ion-col>
         </ion-row>
@@ -110,7 +111,6 @@
 
       <ion-row>
         <ion-col>
-
           <app-slides-poster mediaType="tvshow" [tvShows]="popularTVShows" (loadMore)="loadMore('popularTVShows')">
           </app-slides-poster>
         </ion-col>

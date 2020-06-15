@@ -97,6 +97,10 @@ export class MoviesAPIService {
     return this.runQuery<ResultsTMDb>(`/movie/${id}/recommendations?`);
   }
 
+  getMovieSimilar(id: string) {
+    return this.runQuery<ResultsTMDb>(`/movie/${id}/similar?`);
+  }
+
   multiSearch(text: string) {
     return this.runQuery<ResultsTMDb>(`/search/multi?&page=1&include_adult=false&query=${text}`);
   }
