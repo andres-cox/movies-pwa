@@ -3,7 +3,7 @@
     <ion-slides [options]="slideOpts">
       <ion-slide *ngFor="let item of [0,0,0,0]">
         <ion-card class="poster">
-          <ion-skeleton-text animated style="width: 100%; height: 100%;"></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
         </ion-card>
       </ion-slide>
     </ion-slides>
@@ -21,21 +21,20 @@
       </ion-button>
     </ion-slide>
   </ion-slides>
-
-
 </div>
-<ng-template #movie>
-  <ion-slides [options]="slideOpts">
-    <div *ngIf="movies.length == 0">
-      <ion-slides [options]="slideOpts">
-        <ion-slide *ngFor="let item of [0,0,0,0]">
-          <ion-card class="poster">
-            <ion-skeleton-text animated style="width: 100%; height: 100%;"></ion-skeleton-text>
-          </ion-card>
-        </ion-slide>
-      </ion-slides>
-    </div>
 
+<ng-template #movie>
+  <div *ngIf="movies.length == 0">
+    <ion-slides [options]="slideOpts">
+      <ion-slide *ngFor="let item of [0,0,0,0]">
+        <ion-card class="poster">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
+  </div>
+
+  <ion-slides [options]="slideOpts">
     <ion-slide *ngFor="let movie of movies">
       <ion-card class="poster" mode="md" (click)="searchDetails( movie.id, 'movie' )">
         <img class="poster" [src]="movie.poster_path | image">

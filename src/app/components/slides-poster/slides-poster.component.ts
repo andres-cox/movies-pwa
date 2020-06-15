@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Movie, TVShow } from 'src/app/interfaces/interfaces';
 import { ModalController } from '@ionic/angular';
 import { DetailsComponent } from '../details/details.component';
-import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-slides-poster',
@@ -30,6 +29,8 @@ export class SlidesPosterComponent implements OnInit {
   @Input() pagerButton: boolean = true;
   @Input() movies: Movie[] = [];
   @Input() tvShows: TVShow[] = [];
+
+
   media: string;
 
 

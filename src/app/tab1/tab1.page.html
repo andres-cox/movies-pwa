@@ -2,9 +2,6 @@
 
   <!-- SEARCHBAR -->
   <ion-toolbar>
-    <!-- <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons> -->
     <ion-searchbar #searchBar mode='md' placeholder="Buscar Pelicula, Serie, Actor/Actriz"
       (ionChange)="onSearch($event)" [debounce]="700"></ion-searchbar>
 
@@ -79,7 +76,7 @@
       </ion-row>
     </ion-grid>
 
-    <div *ngFor="let moviesItem of [0,0,0]; let i=index">
+    <div *ngFor="let moviesItem of recommendationMovies; let i=index">
       <ion-grid fixed>
         <ion-row>
           <ion-col>
@@ -88,11 +85,16 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <app-slides-poster mediaType="movie" [movies]="recommendationMovies[i]" [pagerButton]=false>
+            <app-slides-poster mediaType="movie" [movies]="moviesItem" [pagerButton]=false>
             </app-slides-poster>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row *ngIf="similarMovies[i].length">
+          <ion-col>
+            <ion-card-subtitle>Similares</ion-card-subtitle>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="similarMovies[i].length">
           <ion-col>
             <app-slides-poster mediaType="movie" [movies]="similarMovies[i]" [pagerButton]=false>
             </app-slides-poster>

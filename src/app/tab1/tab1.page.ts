@@ -35,7 +35,7 @@ export class Tab1Page implements OnInit {
     private modalController: ModalController,
     private storageService: StorageService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     if (this.darkMode) { document.body.classList.toggle('dark'); }
 
     this.loadSeenMovies();
@@ -54,7 +54,7 @@ export class Tab1Page implements OnInit {
         this.netflixTVShows = res.results.filter(res => !this.seenIndexMovies.includes(res.id));
       });
 
-    this.loadRecomendations();
+    await this.loadRecomendations();
 
   }
 
