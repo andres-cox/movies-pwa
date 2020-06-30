@@ -4,6 +4,7 @@ import { ResultsTMDb, Movie, TVShow, MovieDetails } from '../interfaces/interfac
 import { DetailsComponent } from '../components/details/details.component';
 import { ModalController, IonSearchbar } from '@ionic/angular';
 import { StorageService } from '../services/storage.service';
+import { JustwatchApiService } from '../services/justwatch-api.service';
 
 @Component({
   selector: 'app-tab1',

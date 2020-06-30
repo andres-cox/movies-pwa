@@ -3,6 +3,7 @@ import { MoviesAPIService } from 'src/app/services/movies-api.service';
 import { MovieDetails, TVShowDetails, ActorDetails, Movie, TVShow, ResultsTMDb } from 'src/app/interfaces/interfaces';
 import { ModalController } from '@ionic/angular';
 import { StorageService } from 'src/app/services/storage.service';
+import { JustwatchApiService } from 'src/app/services/justwatch-api.service';
 
 @Component({
   selector: 'app-details',
@@ -33,6 +34,7 @@ export class DetailsComponent implements OnInit {
   movies: Movie[] = [];
   tvshows = [];
   year;
+  streamProviders;
 
   hide = 250;
   star = 'star-outline';
@@ -41,9 +43,11 @@ export class DetailsComponent implements OnInit {
 
   constructor(private moviesService: MoviesAPIService,
     private storageService: StorageService,
+    private justwatchService: JustwatchApiService,
     private modalController: ModalController) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+
     switch (this.mediaType) {
       case 'movie':
 
@@ -54,13 +58,22 @@ export class DetailsComponent implements OnInit {
         this.storageService.movieExists(this.id, 'seen')
           .then(exists => this.checkMark = (exists) ? 'checkmark-circle' : 'checkmark-circle-outline');
 
-        this.moviesService.getMovieDetails(this.id)
-          .subscribe(resp => {
-            this.movie = resp;
-            this.animationGenre = this.movie.genres.some(genre => genre.name.toLowerCase() == 'animación');
-            this.year = resp.release_date.split('-')[0];
-          });
+        const movieDetails = await this.moviesService.getMovieDetails(this.id);
+        movieDetails.subscribe(resp => {
+          let streamAvailable;
+          this.movie = resp;
+          this.animationGenre = this.movie.genres.some(genre => genre.name.toLowerCase() == 'animación');
+          this.year = resp.release_date.split('-')[0];
+          this.justwatchService.search(this.movie.title).then(res => res.subscribe((result: any) => {
+            streamAvailable = result.items[0].offers.filter(e => e.monetization_type == "flatrate" && e.presentation_type == "sd");
+            streamAvailable = streamAvailable.map(e => e.provider_id)
 
+            this.streamProviders = this.justwatchService.getProviders().filter(res => streamAvailable.includes(res.id));
+            console.log(streamAvailable, this.streamProviders);
+          }));
+        });
+
+        // monetization_type: "flatrate"
         this.moviesService.getMovieActors(this.id)
           .subscribe(resp => this.actors = resp.cast);
         break;
@@ -97,6 +110,8 @@ export class DetailsComponent implements OnInit {
         break;
     }
   }
+
+
 
   sortByProperty(property) {
     return function (a, b) {

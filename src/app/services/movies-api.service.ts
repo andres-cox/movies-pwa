@@ -69,7 +69,7 @@ export class MoviesAPIService {
     return this.runQuery<CreditsResponse>(`/movie/${id}/credits?a=1`);
   }
 
-  getMovieDetails(id: string) {
+  async getMovieDetails(id: string) {
     return this.runQuery<MovieDetails>(`/movie/${id}?a=1`);
   }
 
