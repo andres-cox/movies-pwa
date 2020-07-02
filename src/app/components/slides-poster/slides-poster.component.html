@@ -1,49 +1,16 @@
-<div *ngIf="media === 'tvshow'; else movie">
-  <div *ngIf="tvShows.length == 0">
-    <ion-slides [options]="slideOpts">
-      <ion-slide *ngFor="let item of [0,0,0,0]">
-        <ion-card class="poster">
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </ion-card>
-      </ion-slide>
-    </ion-slides>
-  </div>
+<ion-slides *ngIf="billboard === null" [options]="slideOpts">
+  <ion-slide *ngFor="let item of [0,0,0,0]">
+    <ion-card class="poster">
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-card>
+  </ion-slide>
+</ion-slides>
 
-  <ion-slides [options]="slideOpts">
-    <ion-slide *ngFor="let tvShow of tvShows">
-      <ion-card class="poster" mode="md" (click)="searchDetails( tvShow.id, 'tv' )">
-        <img class="poster" [src]="tvShow.poster_path | image">
-      </ion-card>
-    </ion-slide>
-    <ion-slide *ngIf="pagerButton" class="ion-align-self-center">
-      <ion-button class="btn-mas" size="large" (click)="onClick()" shape="round">
-        <ion-icon name="add" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-slide>
-  </ion-slides>
-</div>
+<ion-slides [options]="slideOpts">
+  <ion-slide *ngFor="let item of billboard">
+    <ion-card class="poster" mode="md" (click)="searchDetails( item.id )">
+      <img class="poster" [src]="item.poster_path | image">
+    </ion-card>
+  </ion-slide>
 
-<ng-template #movie>
-  <div *ngIf="movies.length == 0">
-    <ion-slides [options]="slideOpts">
-      <ion-slide *ngFor="let item of [0,0,0,0]">
-        <ion-card class="poster">
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </ion-card>
-      </ion-slide>
-    </ion-slides>
-  </div>
-
-  <ion-slides [options]="slideOpts">
-    <ion-slide *ngFor="let movie of movies">
-      <ion-card class="poster" mode="md" (click)="searchDetails( movie.id, 'movie' )">
-        <img class="poster" [src]="movie.poster_path | image">
-      </ion-card>
-    </ion-slide>
-    <ion-slide *ngIf="pagerButton" class="ion-align-self-center">
-      <ion-button size="large" (click)="onClick()" shape="round">
-        <ion-icon name="add" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-slide>
-  </ion-slides>
-</ng-template>
+</ion-slides>

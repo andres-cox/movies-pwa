@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Movie, TVShow } from 'src/app/interfaces/interfaces';
+import { Billboard, TVShow } from 'src/app/interfaces/interfaces';
 import { ModalController } from '@ionic/angular';
 import { DetailsComponent } from '../details/details.component';
 
@@ -25,28 +25,24 @@ export class SlidesPosterComponent implements OnInit {
     }
   }
 
+
   @Input() mediaType: string;
   @Input() pagerButton: boolean = true;
-  @Input() movies: Movie[] = [];
-  @Input() tvShows: TVShow[] = [];
+  @Input() billboard: Billboard[] = [];
 
-
-  media: string;
 
 
   @Output() loadMore = new EventEmitter();
 
-  constructor(private modalController: ModalController) { }
+  constructor(private modalController: ModalController) {
+
+  }
 
   ngOnInit() {
-    this.media = this.mediaType;
   }
 
-  onClick() {
-    this.loadMore.emit();
-  }
-
-  async searchDetails(id: string, mediaType: string) {
+  async searchDetails(id: string) {
+    const mediaType: string = this.mediaType;
 
     const modal = await this.modalController.create({
       component: DetailsComponent,

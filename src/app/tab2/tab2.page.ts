@@ -3,6 +3,7 @@ import { MoviesAPIService } from '../services/movies-api.service';
 import { Movie, ResultsTMDb, Genre, ResultGenres } from '../interfaces/interfaces';
 import { DetailsComponent } from '../components/details/details.component';
 import { ModalController, IonSlides } from '@ionic/angular';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-tab2',
@@ -53,7 +54,7 @@ export class Tab2Page {
     },
   }
   popularMovies: Movie[] = [];
-  genres: Genre[] = [];
+  genres: Observable<Genre[]>;
   hide = 180;
   genre: number = 28; //Action
   genreName: string = 'Acción';
@@ -69,13 +70,11 @@ export class Tab2Page {
       this.years.push(1990 + i);
     }
     this.moviesService.getMoviesByGenreAndYear(this.genre, this.year)
-      .subscribe((res: ResultsTMDb) => {
-        this.popularMovies = res.results;
+      .subscribe((res: Movie[]) => {
+        this.popularMovies = res;
       });
-    this.moviesService.getGenres()
-      .subscribe((res: ResultGenres) => {
-        this.genres = res.genres;
-      })
+    this.genres = this.moviesService.getGenres()
+
   }
 
   next(slides: string) {
@@ -89,8 +88,8 @@ export class Tab2Page {
   changeYear(year) {
     this.popularMovies = [];
     this.moviesService.getMoviesByGenreAndYear(this.genre, year)
-      .subscribe((res: ResultsTMDb) => {
-        this.popularMovies = res.results;
+      .subscribe((res: Movie[]) => {
+        this.popularMovies = res;
       });
     this.year = year;
   }
@@ -98,8 +97,8 @@ export class Tab2Page {
   changeGenre(genre: Genre) {
     this.popularMovies = [];
     this.moviesService.getMoviesByGenreAndYear(genre.id, this.year)
-      .subscribe((res: ResultsTMDb) => {
-        this.popularMovies = res.results;
+      .subscribe((res: Movie[]) => {
+        this.popularMovies = res;
       });
     this.genre = genre.id;
     this.genreName = genre.name;
@@ -108,13 +107,13 @@ export class Tab2Page {
   loadData(event?) {
     this.moviesService.getMoviesByGenreAndYear(this.genre, this.year).subscribe(resp => {
 
-      if (resp.results.length === 0) {
+      if (resp.length === 0) {
         event.target.disabled = true;
         event.target.complete();
         return;
       }
 
-      this.popularMovies.push(...resp.results);
+      this.popularMovies.push(...resp);
 
       if (event) {
         event.target.complete();

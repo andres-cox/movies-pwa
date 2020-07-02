@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { StorageService } from '../services/storage.service';
-import { Movie, MovieDetails } from '../interfaces/interfaces';
+import { MovieDetails } from '../interfaces/interfaces';
 import { DetailsComponent } from '../components/details/details.component';
 import { ModalController, IonSlides } from '@ionic/angular';
 
@@ -14,8 +14,10 @@ export class Tab3Page {
   favoriteMovies: MovieDetails[] = [];
   watchListMovies: MovieDetails[] = [];
   seenMovies: MovieDetails[] = [];
+  storageMovies: Array<MovieDetails[]>;
 
   @ViewChild('slides') selectedSlide: IonSlides;
+
   segment = 1;
   segments = ['towatch', 'favorites', 'seen'];
 
@@ -30,9 +32,7 @@ export class Tab3Page {
   ) { }
 
   async ionViewWillEnter() {
-    this.favoriteMovies = await this.storageService.loadMovies('favorites');
-    this.watchListMovies = await this.storageService.loadMovies('towatch');
-    this.seenMovies = await this.storageService.loadMovies('seen');
+    this.storageMovies = [await this.storageService.loadMovies('towatch'), await this.storageService.loadMovies('favorites'), await this.storageService.loadMovies('seen')];
   }
 
   async segmentChanged(e) {

@@ -61,48 +61,45 @@
   </ion-grid>
 
   <div *ngIf="results.length === 0">
-
     <ion-grid fixed>
       <ion-row>
         <ion-col>
           <h3>Películas Populares</h3>
         </ion-col>
       </ion-row>
+
       <ion-row>
         <ion-col>
-          <app-slides-poster mediaType="movie" [movies]="popularMovies" (loadMore)="loadMore('popularMovies')">
+          <app-slides-poster mediaType="movie" [billboard]="popularMovies | async">
           </app-slides-poster>
         </ion-col>
       </ion-row>
     </ion-grid>
 
-    <div *ngFor="let moviesItem of recommendationMovies; let i=index">
-      <ion-grid fixed>
+    <ion-grid fixed>
+      <div *ngFor="let favoriteMovie of randomFavoriteMovies; let i=index">
         <ion-row>
           <ion-col>
-            <h3>Por que te gusto "{{this.randomFavoriteMovies[i].title}}"</h3>
+            <h3>Por que te gusto "{{favoriteMovie.title}}"</h3>
           </ion-col>
         </ion-row>
+
         <ion-row>
           <ion-col>
-            <app-slides-poster mediaType="movie" [movies]="moviesItem" [pagerButton]=false>
+            <app-slides-poster mediaType="movie" [billboard]="recommendationMovies[i] | async">
             </app-slides-poster>
           </ion-col>
         </ion-row>
-        <ion-row *ngIf="similarMovies[i].length">
+
+        <ion-row>
           <ion-col>
-            <ion-card-subtitle>Similares</ion-card-subtitle>
-          </ion-col>
-        </ion-row>
-        <ion-row *ngIf="similarMovies[i].length">
-          <ion-col>
-            <app-slides-poster mediaType="movie" [movies]="similarMovies[i]" [pagerButton]=false>
+            <app-slides-poster mediaType="movie" [billboard]="similarMovies[i] | async">
             </app-slides-poster>
           </ion-col>
         </ion-row>
-      </ion-grid>
-    </div>
-    <!-- </div> -->
+      </div>
+    </ion-grid>
+
 
     <ion-grid fixed>
       <ion-row>
@@ -113,7 +110,7 @@
 
       <ion-row>
         <ion-col>
-          <app-slides-poster mediaType="tvshow" [tvShows]="popularTVShows" (loadMore)="loadMore('popularTVShows')">
+          <app-slides-poster mediaType="tv" [billboard]="popularTVShows | async">
           </app-slides-poster>
         </ion-col>
       </ion-row>
@@ -126,14 +123,13 @@
           <h3>Series de Netflix</h3>
         </ion-col>
       </ion-row>
+
       <ion-row>
         <ion-col>
-          <app-slides-poster mediaType="tvshow" [tvShows]="netflixTVShows"
-            (loadMore)="loadMore('popularNetflixTVShows')">
+          <app-slides-poster mediaType="tv" [billboard]="netflixTVShows | async">
           </app-slides-poster>
         </ion-col>
       </ion-row>
     </ion-grid>
   </div>
-
 </ion-content>

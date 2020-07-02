@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MoviesAPIService } from '../services/movies-api.service';
-import { ResultsTMDb, Movie, TVShow, MovieDetails } from '../interfaces/interfaces';
-import { DetailsComponent } from '../components/details/details.component';
 import { ModalController, IonSearchbar } from '@ionic/angular';
+import { Observable } from 'rxjs';
+
+import { DetailsComponent } from '../components/details/details.component';
+import { MoviesAPIService } from '../services/movies-api.service';
 import { StorageService } from '../services/storage.service';
-import { JustwatchApiService } from '../services/justwatch-api.service';
+
+import { Movie, TVShow, MovieDetails } from '../interfaces/interfaces';
 
 @Component({
   selector: 'app-tab1',
@@ -14,17 +16,18 @@ import { JustwatchApiService } from '../services/justwatch-api.service';
 export class Tab1Page implements OnInit {
 
   @ViewChild('searchBar') searchBar: IonSearchbar;
-  popularMovies: Movie[] = [];
-  popularTVShows: TVShow[] = [];
-  netflixTVShows: TVShow[] = [];
+
+  popularMovies: Observable<Movie[]>;
+  similarMovies = Array<Observable<Movie[]>>();
+  recommendationMovies = Array<Observable<Movie[]>>();
+
+  popularTVShows: Observable<TVShow[]>;
+  netflixTVShows: Observable<TVShow[]>;
   searching: boolean = false;
-  darkMode: boolean = true;
+  darkMode: boolean = false;
   results = [];
-  seenIndexMovies: any = [];
 
   randomFavoriteMovies: MovieDetails[] = [];
-  recommendationMovies = [];
-  similarMovies = [];
 
 
   slideOpts = {
@@ -37,82 +40,25 @@ export class Tab1Page implements OnInit {
     private storageService: StorageService) { }
 
   async ngOnInit() {
-    if (this.darkMode) { document.body.classList.toggle('dark'); }
+    // if (this.darkMode) { document.body.classList.toggle('dark'); }
 
-    this.loadSeenMovies();
-    this.moviesService.getPopularMovies()
-      .subscribe((res: ResultsTMDb) => {
-        this.popularMovies = res.results.filter(res => !this.seenIndexMovies.includes(res.id));
-      });
+    this.popularMovies = this.moviesService.getPopularMovies();
 
-    this.moviesService.getPopularTVShows()
-      .subscribe((res: ResultsTMDb) => {
-        this.popularTVShows = res.results.filter(res => !this.seenIndexMovies.includes(res.id));
-      });
+    this.popularTVShows = this.moviesService.getPopularTVShows();
 
-    this.moviesService.getNetflixTVShows()
-      .subscribe((res: ResultsTMDb) => {
-        this.netflixTVShows = res.results.filter(res => !this.seenIndexMovies.includes(res.id));
-      });
+    this.netflixTVShows = this.moviesService.getNetflixTVShows()
 
-    await this.loadRecomendations();
+    for (let i = 0; i < 3; i++) {
+      this.randomFavoriteMovies[i] = await this.storageService.loadRandomFavoriteMovie();
+      this.recommendationMovies[i] = this.moviesService.getMovieRecommendations(this.randomFavoriteMovies[i].id.toString());
+      this.similarMovies[i] = this.moviesService.getMovieSimilar(this.randomFavoriteMovies[i].id.toString());
+    }
 
   }
 
   async doRefresh(event) {
-    this.recommendationMovies = [];
-    this.loadRecomendations();
-
+    await this.ngOnInit();
     event.target.complete();
-  }
-
-  async loadSeenMovies() {
-    const seenMovies = await this.storageService.loadMovies('seen');
-    this.seenIndexMovies = seenMovies.map(el => el.id);
-  }
-
-  async loadRecomendations() {
-    for (let i = 0; i < 3; i++) {
-      this.randomFavoriteMovies[i] = await this.storageService.loadRandomFavoriteMovie();
-      this.moviesService.getMovieRecommendations(this.randomFavoriteMovies[i].id.toString())
-        .subscribe((res: ResultsTMDb) => {
-          this.recommendationMovies[i] = res.results.filter(res => !this.seenIndexMovies.includes(res.id));
-        });
-      this.moviesService.getMovieSimilar(this.randomFavoriteMovies[i].id.toString())
-        .subscribe((res: ResultsTMDb) => {
-          this.similarMovies[i] = res.results.filter(res => !this.seenIndexMovies.includes(res.id));
-        });
-    }
-  }
-
-  loadMore(media: string) {
-    switch (media) {
-      case 'popularMovies':
-        this.moviesService.getPopularMovies()
-          .subscribe(resp => {
-            const arrTemp = [...this.popularMovies, ...resp.results];
-            this.popularMovies = arrTemp;
-          });
-        break;
-      case 'popularTVShows':
-        this.moviesService.getPopularTVShows()
-          .subscribe(resp => {
-            const arrTemp = [...this.popularTVShows, ...resp.results];
-            this.popularTVShows = arrTemp;
-          });
-        break;
-      case 'popularNetflixTVShows':
-        this.moviesService.getNetflixTVShows()
-          .subscribe(resp => {
-            const arrTemp = [...this.netflixTVShows, ...resp.results];
-            this.netflixTVShows = arrTemp;
-
-          });
-        break;
-
-      default:
-        break;
-    }
   }
 
   onSearch(event) {
@@ -154,7 +100,5 @@ export class Tab1Page implements OnInit {
     this.darkMode = !this.darkMode;
     document.body.classList.toggle('dark');
   }
-
-
 
 }

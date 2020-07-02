@@ -148,7 +148,7 @@
             <img *ngIf=" !actor.profile_path" src="/assets/no-avatar.jpg">
             <img *ngIf="actor.profile_path" [src]="actor.profile_path | image">
             <ion-card-subtitle class="actor-name"> {{ actor.name }}</ion-card-subtitle>
-            <ion-label *ngIf="animationGenre" class="actor-character"> {{ actor.character | voiceActor}}</ion-label>
+            <ion-label *ngIf="animationGenre" class="actor-character"> {{ actor.character | voiceActor }}</ion-label>
           </ion-card>
         </ion-slide>
       </ion-slides>
@@ -179,6 +179,14 @@
             <ion-label>{{ actor.biography | slice: 0: hide }}</ion-label>
             <ion-label *ngIf="hide !== 5000">...</ion-label>
             <ion-label color="primary" (click)="hide = 5000" *ngIf="hide !== 5000"> Leer más!</ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col>
+            <div [innerHtml]='this.actorAcademyAwards'></div>
           </ion-col>
         </ion-row>
       </ion-grid>

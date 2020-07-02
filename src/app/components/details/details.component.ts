@@ -4,6 +4,7 @@ import { MovieDetails, TVShowDetails, ActorDetails, Movie, TVShow, ResultsTMDb }
 import { ModalController } from '@ionic/angular';
 import { StorageService } from 'src/app/services/storage.service';
 import { JustwatchApiService } from 'src/app/services/justwatch-api.service';
+import { WikipediaApiService } from 'src/app/services/wikipedia-api.service';
 
 @Component({
   selector: 'app-details',
@@ -34,7 +35,9 @@ export class DetailsComponent implements OnInit {
   movies: Movie[] = [];
   tvshows = [];
   year;
+
   streamProviders;
+  actorAcademyAwards
 
   hide = 250;
   star = 'star-outline';
@@ -44,6 +47,7 @@ export class DetailsComponent implements OnInit {
   constructor(private moviesService: MoviesAPIService,
     private storageService: StorageService,
     private justwatchService: JustwatchApiService,
+    private wikipediaService: WikipediaApiService,
     private modalController: ModalController) { }
 
   async ngOnInit() {
@@ -58,8 +62,7 @@ export class DetailsComponent implements OnInit {
         this.storageService.movieExists(this.id, 'seen')
           .then(exists => this.checkMark = (exists) ? 'checkmark-circle' : 'checkmark-circle-outline');
 
-        const movieDetails = await this.moviesService.getMovieDetails(this.id);
-        movieDetails.subscribe(resp => {
+        await this.moviesService.getMovieDetails(this.id).subscribe(resp => {
           let streamAvailable;
           this.movie = resp;
           this.animationGenre = this.movie.genres.some(genre => genre.name.toLowerCase() == 'animación');
@@ -67,9 +70,7 @@ export class DetailsComponent implements OnInit {
           this.justwatchService.search(this.movie.title).then(res => res.subscribe((result: any) => {
             streamAvailable = result.items[0].offers.filter(e => e.monetization_type == "flatrate" && e.presentation_type == "sd");
             streamAvailable = streamAvailable.map(e => e.provider_id)
-
             this.streamProviders = this.justwatchService.getProviders().filter(res => streamAvailable.includes(res.id));
-            console.log(streamAvailable, this.streamProviders);
           }));
         });
 
@@ -90,9 +91,19 @@ export class DetailsComponent implements OnInit {
         break;
 
       case 'person':
-        this.moviesService.getActorDetails(this.id)
+        await this.moviesService.getActorDetails(this.id)
           .subscribe(resp => {
             this.actor = resp;
+            const wikiResponse = this.wikipediaService.getActorAcademyAwards(this.actor.name);
+
+            wikiResponse.then((res: any) => {
+              res.subscribe((res: any) => {
+                const sections = res.remaining.sections;
+                console.log(sections);
+                const actorAcademyAwards = sections.find(el => el.anchor == "Premios_y_nominaciones");
+                this.actorAcademyAwards = actorAcademyAwards.text;
+              });
+            });
           });
 
         this.moviesService.getActorMovies(this.id)
@@ -110,8 +121,6 @@ export class DetailsComponent implements OnInit {
         break;
     }
   }
-
-
 
   sortByProperty(property) {
     return function (a, b) {

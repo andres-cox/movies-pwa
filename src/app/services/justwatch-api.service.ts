@@ -27,17 +27,18 @@ export class JustwatchApiService {
 
 
   getProviders() {
-    const providers = [{ id: 8, clear_name: "Netflix", color: "#e50914" },
-    { id: 2, clear_name: "Apple iTunes", color: "#cc45f2" },
-    { id: 3, clear_name: "Google Play Movies", color: "#ea4335" },
-    { id: 119, clear_name: "Amazon Prime Video", color: "#146eb4" },
-    { id: 350, clear_name: "Apple TV Plus", color: "#555555" },
-    { id: 31, clear_name: "HBO Go", color: "#000000" },
-    { id: 339, clear_name: "Movistar Play", color: "#61aba2" },
-    { id: 167, clear_name: "Claro video", color: "#dd5449" },
-    { id: 67, clear_name: "Blim", color: "#0d4241" },
-    { id: 283, clear_name: "Crunchyroll", color: "#fcc044" },
-    { id: 11, clear_name: "Mubi", color: "#383838" }]
+    const providers = [
+      { id: 8, clear_name: "Netflix", color: "#e50914" },
+      { id: 2, clear_name: "Apple iTunes", color: "#c137e7" },
+      { id: 3, clear_name: "Google Play Movies", color: "#ea4335" },
+      { id: 119, clear_name: "Amazon Prime Video", color: "#146eb4" },
+      { id: 350, clear_name: "Apple TV Plus", color: "#555555" },
+      { id: 31, clear_name: "HBO Go", color: "#000000" },
+      { id: 339, clear_name: "Movistar Play", color: "#398f85" },
+      { id: 167, clear_name: "Claro video", color: "#dd463b" },
+      { id: 67, clear_name: "Blim", color: "#0d4241" },
+      { id: 283, clear_name: "Crunchyroll", color: "#af7b12" },
+      { id: 11, clear_name: "Mubi", color: "#383838" }]
     return providers;
   }
 
@@ -57,7 +58,6 @@ export class JustwatchApiService {
 
     const body = { query: title, page: 1, page_size: 2 };
     const headers = { 'Content-type': 'application/json' };
-    console.log(body)
     return await this.http.post(`${URL}/titles/es_AR/popular`, body, { headers });
   };
 

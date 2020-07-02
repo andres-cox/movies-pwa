@@ -38,6 +38,11 @@ export interface TVShow {
     original_name?: string;
 }
 
+export interface Billboard {
+    poster_path: string;
+    id: number;
+}
+
 export interface ActorDetails {
     birthday?: string;
     known_for_department?: string;
