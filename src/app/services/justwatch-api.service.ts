@@ -10,12 +10,6 @@ const URL = 'https://apis.justwatch.com/content';
 
 export class JustwatchApiService {
 
-  //https://apis.justwatch.com/content/providers/locale/en_US
-
-  //   const https = require('https');
-  // const QueryString = require('querystring');
-
-
   constructor(private http: HttpClient) { }
 
   private runQuery<T>(query: string) {
