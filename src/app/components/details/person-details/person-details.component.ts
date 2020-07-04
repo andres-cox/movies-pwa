@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { DetailsComponent } from '../details.component';
 import { Movie, ActorDetails } from 'src/app/interfaces/interfaces';
@@ -12,6 +12,8 @@ import { WikipediaApiService } from 'src/app/services/wikipedia-api.service';
 })
 export class PersonDetailsComponent implements OnInit {
   @Input() id;
+  @Output() closeModal = new EventEmitter();
+
 
   actor: ActorDetails = {};
   movies: Movie[] = [];
@@ -38,24 +40,27 @@ export class PersonDetailsComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    await this.moviesService.getActorDetails(this.id)
-      .subscribe(resp => {
-        this.actor = resp;
-        const wikiResponse = this.wikipediaService.getActorAcademyAwards(this.actor.name);
+    // await this.moviesService.getActorDetails(this.id)
+    //   .subscribe(resp => {
+    //     this.actor = resp;
+    //     const wikiResponse = this.wikipediaService.getActorAcademyAwards(this.actor.name);
 
-        wikiResponse.then((res: any) => {
-          res.subscribe((res: any) => {
-            const sections = res.remaining.sections;
-            console.log(sections);
-            const actorAcademyAwards = sections.find(el => el.anchor == "Premios_y_nominaciones");
-            this.actorAcademyAwards = actorAcademyAwards.text;
-          });
-        });
-      });
+    //     wikiResponse.then((res: any) => {
+    //       res.subscribe((res: any) => {
+    //         const sections = res.remaining.sections;
+    //         console.log(sections);
+    //         const actorAcademyAwards = sections.find(el => el.anchor == "Premios_y_nominaciones");
+    //         this.actorAcademyAwards = actorAcademyAwards.text;
+    //       });
+    //     });
+    //   });
+    this.wikipediaService.getActorAcademyAwards().subscribe((res: any) => {
+      this.actorAcademyAwards = res.parse.text;
+    })
 
     this.moviesService.getActorMovies(this.id)
       .subscribe(resp => {
-        this.movies = resp.results;
+        this.movies = resp;
       });
 
     this.moviesService.getActorTVShows(this.id)
@@ -73,6 +78,11 @@ export class PersonDetailsComponent implements OnInit {
       return 0;
     }
   }
+
+  back() {
+    this.closeModal.emit();
+  }
+
 
 
   async searchDetails(id: string, mediaType: string) {

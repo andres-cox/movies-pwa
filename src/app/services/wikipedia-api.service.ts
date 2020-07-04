@@ -8,9 +8,14 @@ export class WikipediaApiService {
 
   constructor(private http: HttpClient) { }
 
-  async getActorAcademyAwards(actor: string) {
-    const query = await this.http.get(`https://es.wikipedia.org/api/rest_v1/page/mobile-sections/${actor}`)
-    console.log(query);
+  getActorAcademyAwards() {
+    //Para Anexo premios y nominaciones Buscar Oscar
+    const query = this.http.get(`https://es.wikipedia.org/w/api.php?page=Anexo:Premios_y_nominaciones_de_Emma_Stone&format=json&action=parse&section=2&prop=text&formatversion=2&origin=*`)
+    //Para pagina del Actor buscar seccion premios y nominaciones y si tiene sub seccion buscar Oscar
+    // const query = this.http.get(`https://es.wikipedia.org/w/api.php?page=Anexo:Premios_y_nominaciones_de_Emma_Stone&format=json&action=parse&section=2&prop=text&formatversion=2&origin=*`)
+
+    // console.log(query);
+    query.subscribe(console.log);
     return query;
     // return response.subscribe((res: any) => {
     //   const sections = res.remaining.sections;

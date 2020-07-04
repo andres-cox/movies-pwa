@@ -7,17 +7,16 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./details.component.scss'],
 })
 export class DetailsComponent implements OnInit {
-  @Input() id;
+  @Input() id: string;
   @Input() mediaType: string;
 
-  media: string;
 
   constructor(
-    private modalController: ModalController
+    private modalController: ModalController,
   ) { }
 
   ngOnInit() {
-    this.media = this.mediaType;
+
   }
 
   back() {

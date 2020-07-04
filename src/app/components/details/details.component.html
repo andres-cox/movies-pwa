@@ -1,14 +1,5 @@
-<div [ngSwitch]="media">
-  <div *ngSwitchCase="movie">
-    <app-movie-details [id]="id" (closeModal)="back()"></app-movie-details>
-  </div>
-  <div *ngSwitchCase="tv">
-    <app-movie-details [id]="id" (closeModal)="back()"></app-movie-details>
-  </div>
-  <div *ngSwitchCase="person">
-    <app-movie-details [id]="id" (closeModal)="back()"></app-movie-details>
-  </div>
-  <div *ngSwitchDefault>
-    Detalles no encontrados
-  </div>
-</div>
+<ion-content>
+  <app-movie-details *ngIf="mediaType == 'movie'" [id]="id" (closeModal)="back()"></app-movie-details>
+  <app-tvshow-details *ngIf="mediaType == 'tv'" [id]="id" (closeModal)="back()"></app-tvshow-details>
+  <app-person-details *ngIf="mediaType == 'person'" [id]="id" (closeModal)="back()"></app-person-details>
+</ion-content>

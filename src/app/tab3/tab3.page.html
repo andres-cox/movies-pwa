@@ -14,10 +14,7 @@
   </ion-toolbar>
 </ion-header>
 
-
-
 <ion-content>
-
   <ion-slides #slides pager="false" [options]="slidesOpts" (ionSlideDidChange)="slideChanged(slides)"
     (ionSlideDidLoad)="slideChanged(slides)">
     <ion-slide class="slide" *ngFor="let moviesSection of storageMovies; let i=index">
@@ -39,5 +36,4 @@
       </ion-grid>
     </ion-slide>
   </ion-slides>
-
 </ion-content>

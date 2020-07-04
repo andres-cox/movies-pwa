@@ -1,27 +1,8 @@
-.card-actor {
-    width: 100px;
 
 
-    .actor-name {
-        padding: 5px 2px;
-    }
-    
-    .actor-character {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        font-size: small;
-        color: white;
-        background: -moz-linear-gradient(top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
-        background: -webkit-linear-gradient(top, rgba(0,0,0,0.8) 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
-        background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%,rgba(0,0,0,0) 100%); 
-    }
-    
+.actor-data{
+    margin-top: 25px;
 }
-        .actor-data{
-            margin-top: 25px;
-        }
 
 .card-movies {
     width: 100px;

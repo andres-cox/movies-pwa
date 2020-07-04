@@ -41,6 +41,10 @@ export class MoviesAPIService {
   }
 
   //TAB 1 
+  multiSearch(text: string): Observable<ResultsTMDb> {
+    return this.runQuery<ResultsTMDb>(`/search/multi?&page=1&include_adult=false&query=${text}`);
+  }
+
   getPopularMovies(): Observable<Movie[]> {
     const query = `/discover/movie?sort_by=popularity.desc&vote_average.gte=5`;
     return this.runQuery<ResultsTMDb>(query).pipe(map(res => res.results.filter(res => !this.seenIndexMovies.includes(res.id))));
@@ -87,18 +91,16 @@ export class MoviesAPIService {
     return this.runQuery<ResultGenres>(query).pipe(map(res => res.genres));
   }
 
-  getMovieActors(id: string) {
-    return this.runQuery<CreditsResponse>(`/movie/${id}/credits?a=1`);
-  }
-
-  getMovieDetails(id: string) {
+  //MOVIE DETAILS
+  getMovieDetails(id: string): Observable<MovieDetails> {
     return this.runQuery<MovieDetails>(`/movie/${id}?a=1`);
   }
 
-  getActorDetails(id: string) {
-    return this.runQuery<MovieDetails>(`/person/${id}?`);
+  getMovieActors(id: string): Observable<CreditsResponse> {
+    return this.runQuery<CreditsResponse>(`/movie/${id}/credits?a=1`);
   }
 
+  //TV DETAILS
   getTVShowDetails(id: string) {
     return this.runQuery<TVShowDetails>(`/tv/${id}?a=1`);
   }
@@ -107,18 +109,18 @@ export class MoviesAPIService {
     return this.runQuery<CreditsResponse>(`/tv/${id}/credits?a=1`);
   }
 
-  getActorMovies(id: string) {
-    return this.runQuery<ResultsTMDb>(`/discover/movie?with_cast=${id}&sort_by=popularity.desc`);
+
+  //ACTOR DETAILS
+  getActorDetails(id: string): Observable<MovieDetails> {
+    return this.runQuery<MovieDetails>(`/person/${id}?`);
   }
 
-  getActorTVShows(id: string) {
+  getActorMovies(id: string): Observable<Movie[]> {
+    return this.runQuery<ResultsTMDb>(`/discover/movie?with_cast=${id}&sort_by=popularity.desc`).pipe(map(res => res.results));
+  }
+
+  getActorTVShows(id: string): Observable<PersonCredits> {
     return this.runQuery<PersonCredits>(`/person/${id}/tv_credits?`);
   }
-
-  multiSearch(text: string) {
-    return this.runQuery<ResultsTMDb>(`/search/multi?&page=1&include_adult=false&query=${text}`);
-  }
-
-
 }
 

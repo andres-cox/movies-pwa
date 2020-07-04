@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { DetailsComponent } from '../details.component';
-import { MovieDetails, ActorDetails } from 'src/app/interfaces/interfaces';
+import { MovieDetails, ActorDetails, Provider } from 'src/app/interfaces/interfaces';
 import { StorageService } from 'src/app/services/storage.service';
 import { MoviesAPIService } from 'src/app/services/movies-api.service';
 import { JustwatchApiService } from 'src/app/services/justwatch-api.service';
 import { WikipediaApiService } from 'src/app/services/wikipedia-api.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-movie-details',
@@ -13,7 +14,7 @@ import { WikipediaApiService } from 'src/app/services/wikipedia-api.service';
   styleUrls: ['./movie-details.component.scss'],
 })
 export class MovieDetailsComponent implements OnInit {
-  @Input() id;
+  @Input() id: string;
   @Output() closeModal = new EventEmitter();
 
   movie: MovieDetails = {};
@@ -23,7 +24,7 @@ export class MovieDetailsComponent implements OnInit {
   animationGenre: boolean = false;
   animationActors: string[] = [];
 
-  streamProviders;
+  streamProviders: Observable<Provider[]>;
   actorAcademyAwards;
 
   star = 'star-outline';
@@ -57,20 +58,15 @@ export class MovieDetailsComponent implements OnInit {
       .then(exists => this.checkMark = (exists) ? 'checkmark-circle' : 'checkmark-circle-outline');
 
     await this.moviesService.getMovieDetails(this.id).subscribe(resp => {
-      let streamAvailable;
       this.movie = resp;
       this.animationGenre = this.movie.genres.some(genre => genre.name.toLowerCase() == 'animación');
       this.year = resp.release_date.split('-')[0];
-      this.justwatchService.search(this.movie.title).then(res => res.subscribe((result: any) => {
-        streamAvailable = result.items[0].offers.filter(e => e.monetization_type == "flatrate" && e.presentation_type == "sd");
-        streamAvailable = streamAvailable.map(e => e.provider_id)
-        this.streamProviders = this.justwatchService.getProviders().filter(res => streamAvailable.includes(res.id));
-      }));
+      this.streamProviders = this.justwatchService.searchProviders(this.movie.title);
     });
 
-    // monetization_type: "flatrate"
     this.moviesService.getMovieActors(this.id)
       .subscribe(resp => this.actors = resp.cast);
+
   }
 
   favorite() {

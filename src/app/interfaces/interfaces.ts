@@ -225,3 +225,168 @@ export interface Cast {
     order: number;
     profile_path?: string;
 }
+
+//JUSTWATCH API
+export interface ResultsJW {
+    page: number;
+    page_size: number;
+    total_pages: number;
+    total_results: number;
+    items: MovieJW[];
+}
+
+export interface MovieJW {
+    jw_entity_id: string;
+    id: number;
+    title: string;
+    full_path: string;
+    full_paths: Fullpaths;
+    poster: string;
+    original_release_year: number;
+    tmdb_popularity: number;
+    object_type: string;
+    offers: Offer[];
+    scoring: Scoring[];
+}
+
+interface Scoring {
+    provider_type: string;
+    value: number;
+}
+
+export interface Offer {
+    monetization_type: string;
+    provider_id: number;
+    retail_price?: number;
+    last_change_retail_price?: number;
+    last_change_difference?: number;
+    last_change_percent?: number;
+    last_change_date?: string;
+    last_change_date_provider_id?: string;
+    original_retail_price?: number;
+    currency: string;
+    original_currency?: string;
+    urls: Urls;
+    presentation_type: string;
+}
+
+interface Urls {
+    standard_web: string;
+    deeplink_android_tv?: string;
+    deeplink_fire_tv?: string;
+    deeplink_tvos?: string;
+}
+
+interface Fullpaths {
+    MOVIE_DETAIL_OVERVIEW: string;
+}
+
+export interface Provider {
+    id: number;
+    clear_name: string;
+    color: string;
+}
+
+
+export interface ProviderJW {
+    id: number;
+    technical_name: string;
+    short_name: string;
+    clear_name: string;
+    priority: number;
+    display_priority: number;
+    monetization_types: string[];
+    icon_url: string;
+    slug: string;
+    data: Data;
+}
+
+interface Data {
+    deeplink_data: (Deeplinkdatum | Deeplinkdata2 | Deeplinkdata3)[];
+    packages: Packages;
+}
+
+interface Packages {
+    android_tv: string;
+    fire_tv: string;
+    tvos: string;
+}
+
+interface Deeplinkdata3 {
+    scheme: string;
+    packages: string[];
+    platforms: string[];
+    path_template: string;
+    extras: Extras;
+}
+
+interface Extras {
+    'S.source': string;
+}
+
+interface Deeplinkdata2 {
+    scheme: string;
+    packages: string[];
+    platforms: string[];
+    path_template: string;
+    extras?: Extra;
+}
+
+interface Extra {
+    'S.com.amazon.ignition.DeepLinkIntent.DEEP_LINK': string;
+}
+
+interface Deeplinkdatum {
+    scheme: string;
+    packages: string[];
+    platforms: string[];
+    path_template: string;
+    extras?: any;
+}
+
+export interface MovieJWDetails {
+    jw_entity_id: string;
+    id: number;
+    title: string;
+    poster: string;
+    short_description: string;
+    original_release_year: number;
+    tmdb_popularity: number;
+    object_type: string;
+    original_title: string;
+    scoring: Scoring[];
+    credits: Credit[];
+    external_ids: Externalid[];
+    genre_ids: number[];
+    runtime: number;
+}
+
+interface Externalid {
+    provider: string;
+    external_id: string;
+}
+
+interface Credit {
+    role: string;
+    character_name?: string;
+    person_id: number;
+    name: string;
+}
+
+interface Scoring {
+    provider_type: string;
+    value: number;
+}
+
+export interface TVShowJWDetails {
+    jw_entity_id: string;
+    id: number;
+    title: string;
+    original_release_year: number;
+    tmdb_popularity: number;
+    object_type: string;
+    original_title: string;
+    scoring: Scoring[];
+    external_ids: Externalid[];
+    genre_ids: number[];
+}

@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { DetailsComponent } from '../details.component';
-import { TVShowDetails, ActorDetails } from 'src/app/interfaces/interfaces';
+import { TVShowDetails, ActorDetails, Provider } from 'src/app/interfaces/interfaces';
 import { JustwatchApiService } from 'src/app/services/justwatch-api.service';
 import { WikipediaApiService } from 'src/app/services/wikipedia-api.service';
 import { MoviesAPIService } from 'src/app/services/movies-api.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-tvshow-details',
@@ -14,6 +15,8 @@ import { MoviesAPIService } from 'src/app/services/movies-api.service';
 export class TvshowDetailsComponent implements OnInit {
 
   @Input() id;
+  @Output() closeModal = new EventEmitter();
+
 
   tvshow: TVShowDetails = {};
   actors: ActorDetails[] = [];
@@ -21,7 +24,7 @@ export class TvshowDetailsComponent implements OnInit {
   animationGenre: boolean = false;
   animationActors: string[] = [];
 
-  streamProviders;
+  streamProviders: Observable<Provider[]>;
   actorAcademyAwards;
 
   slideOptCasting = {
@@ -42,16 +45,19 @@ export class TvshowDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.moviesService.getTVShowDetails(this.id)
       .subscribe(resp => {
         this.tvshow = resp;
         this.animationGenre = this.tvshow.genres.some(genre => genre.name.toLowerCase() == 'animación');
+        this.streamProviders = this.justwatchService.searchProviders(this.tvshow.name);
       });
 
     this.moviesService.getTVShowActors(this.id)
       .subscribe(resp => this.actors = resp.cast);
+  }
 
+  back() {
+    this.closeModal.emit();
   }
 
   async searchDetails(id: string, mediaType: string) {

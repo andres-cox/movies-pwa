@@ -24,8 +24,8 @@ export class Tab1Page implements OnInit {
   popularTVShows: Observable<TVShow[]>;
   netflixTVShows: Observable<TVShow[]>;
   searching: boolean = false;
-  darkMode: boolean = false;
-  results = [];
+  darkMode: boolean = true;
+  results = []; //Movie, TVShow, Actor
 
   randomFavoriteMovies: MovieDetails[] = [];
 
@@ -40,7 +40,6 @@ export class Tab1Page implements OnInit {
     private storageService: StorageService) { }
 
   async ngOnInit() {
-    // if (this.darkMode) { document.body.classList.toggle('dark'); }
 
     this.popularMovies = this.moviesService.getPopularMovies();
 
