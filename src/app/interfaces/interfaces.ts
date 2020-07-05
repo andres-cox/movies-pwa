@@ -390,3 +390,43 @@ export interface TVShowJWDetails {
     external_ids: Externalid[];
     genre_ids: number[];
 }
+
+//WIKIPEDIA
+export interface ResultsWK {
+    parse: Parse;
+    error?: Error;
+    servedby?: string;
+}
+
+interface Parse {
+    title: string;
+    pageid: number;
+    sections: Section[];
+}
+
+export interface Section {
+    toclevel: number;
+    level: string;
+    line: string;
+    number: string;
+    index: string;
+    fromtitle: string;
+    byteoffset: number;
+    anchor: string;
+}
+
+interface Error {
+    code: string;
+    info: string;
+    docref: string;
+}
+
+export interface SectionResult {
+    parse: SectionRes;
+}
+
+interface SectionRes {
+    title: string;
+    pageid: number;
+    text: string;
+}

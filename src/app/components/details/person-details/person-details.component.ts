@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { DetailsComponent } from '../details.component';
-import { Movie, ActorDetails } from 'src/app/interfaces/interfaces';
+import { Movie, ActorDetails, SectionResult } from 'src/app/interfaces/interfaces';
 import { MoviesAPIService } from 'src/app/services/movies-api.service';
 import { WikipediaApiService } from 'src/app/services/wikipedia-api.service';
 
@@ -19,6 +19,7 @@ export class PersonDetailsComponent implements OnInit {
   movies: Movie[] = [];
   tvshows = [];
   year;
+  hide = 250;
 
   actorAcademyAwards;
 
@@ -40,23 +41,13 @@ export class PersonDetailsComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    // await this.moviesService.getActorDetails(this.id)
-    //   .subscribe(resp => {
-    //     this.actor = resp;
-    //     const wikiResponse = this.wikipediaService.getActorAcademyAwards(this.actor.name);
-
-    //     wikiResponse.then((res: any) => {
-    //       res.subscribe((res: any) => {
-    //         const sections = res.remaining.sections;
-    //         console.log(sections);
-    //         const actorAcademyAwards = sections.find(el => el.anchor == "Premios_y_nominaciones");
-    //         this.actorAcademyAwards = actorAcademyAwards.text;
-    //       });
-    //     });
-    //   });
-    this.wikipediaService.getActorAcademyAwards().subscribe((res: any) => {
-      this.actorAcademyAwards = res.parse.text;
-    })
+    this.moviesService.getActorDetails(this.id)
+      .subscribe(resp => {
+        this.actor = resp;
+        this.wikipediaService.getActorAcademyAwards(this.actor.name).subscribe((res: string) => {
+          this.actorAcademyAwards = res;
+        })
+      });
 
     this.moviesService.getActorMovies(this.id)
       .subscribe(resp => {

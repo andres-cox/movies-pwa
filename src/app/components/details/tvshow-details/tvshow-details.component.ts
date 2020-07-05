@@ -54,6 +54,7 @@ export class TvshowDetailsComponent implements OnInit {
 
     this.moviesService.getTVShowActors(this.id)
       .subscribe(resp => this.actors = resp.cast);
+
   }
 
   back() {

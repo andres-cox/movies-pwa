@@ -20,3 +20,30 @@
         padding: 5px 2px;
     }
 }
+
+.actorAcademyAwards::ng-deep{
+    table {
+        width: 100%;
+        margin: .7rem 0;
+        font-size: .9rem;
+    }
+    
+    tr, td, th, td {
+        border: solid rgb(98, 97, 97) 1px;
+        background-color: transparent;
+    }
+
+    td,th {
+        text-align: center;
+        padding: .4rem 0;
+    }
+    a {
+        cursor: default;
+        color: white;
+        text-decoration: none;
+    }
+    .references, .mw-editsection, .reference, .unsortable, p{
+        display: none;
+    }
+    
+}
