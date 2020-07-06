@@ -13,29 +13,26 @@ export class WikipediaApiService {
   constructor(private http: HttpClient) { }
 
   private runQuery<T>(query: string) {
-    query = URL + query;
-    // query += '&format=json&action=parse&section=2&prop=text&formatversion=2&origin=*'
-    query += '&format=json&origin=*'
-
+    query = `${URL}action=parse${query}&format=json&origin=*`;
     return this.http.get<T>(query);
   }
 
   getActorAcademyAwards(actor: string): Observable<string> {
 
     let sectionId: Section;
-    const searchSection$ = this.runQuery<ResultsWK>(`&action=parse&page=Anexo:Premios_y_nominaciones_de_${actor}&prop=sections`)
+    const searchSection$ = this.runQuery<ResultsWK>(`&page=Anexo:Premios_y_nominaciones_de_${actor}&prop=sections`)
       .pipe(concatMap(resp => {
         if ('error' in resp) { return new Observable<string>(subscriber => subscriber.next('')) }
         const sections: Section[] = resp.parse.sections;
         sectionId = sections.find(el => el.anchor == "Premios_Óscar");
         if (sectionId == undefined) sectionId = sections.find(el => el.anchor == "Óscar");
         if (sectionId == undefined) { return new Observable<string>(subscriber => subscriber.next('')) }
-        return this.runQuery<SectionResult>(`&action=parse&page=Anexo:Premios_y_nominaciones_de_${actor}&section=${sectionId.index}&prop=text&formatversion=2`)
+        return this.runQuery<SectionResult>(`&page=Anexo:Premios_y_nominaciones_de_${actor}&section=${sectionId.index}&prop=text&formatversion=2`)
           .pipe(map(res => res.parse.text));
       }));
 
 
-    const searchPage$ = this.runQuery<ResultsWK>(`action=parse&page=${actor}&prop=sections`)
+    const searchPage$ = this.runQuery<ResultsWK>(`&page=${actor}&prop=sections`)
       .pipe(concatMap(resp => {
         if ('error' in resp) { return new Observable<string>(subscriber => subscriber.next('')) }
         const sections: Section[] = resp.parse.sections;
@@ -44,7 +41,7 @@ export class WikipediaApiService {
         if (sectionId == undefined) sectionId = sections.find(el => el.anchor == "Premios_y_nominaciones");
         if (sectionId == undefined) sectionId = sections.find(el => el.anchor == "Reconocimientos_artísticos");
         if (sectionId == undefined) { return new Observable<string>(subscriber => subscriber.next('')) }
-        return this.runQuery<SectionResult>(`action=parse&page=${actor}&section=${sectionId.index}&prop=text&formatversion=2`)
+        return this.runQuery<SectionResult>(`&page=${actor}&section=${sectionId.index}&prop=text&formatversion=2`)
           .pipe(map(res => res.parse.text));
       }));
 
@@ -55,29 +52,28 @@ export class WikipediaApiService {
       }));
   }
 
-  getActorGoldenGlobes() {
-    // https://es.wikipedia.org/api/rest_v1/page/mobile-sections/Will Smith
+  getMovieAcademyAwards(title: string): Observable<string> {
+    // Titanic_(película_de_1997)
+    // Green_Book_(película)
+    // Avengers:_Endgame
+    // A_Star_Is_Born_(película_de_2018)
+    // The_Guard_(película_de_2011)
+    // El_irlandés
+    // Anexo:Premios_y_nominaciones_de_Whiplash_(pel%C3%ADcula_de_2014)
+    console.log('original title', title);
+    const searchPage$ = this.runQuery<ResultsWK>(`&page=${title}&prop=sections`)
+      .pipe(concatMap(resp => {
+        let sectionId: Section;
+        if ('error' in resp) { return new Observable<string>(subscriber => subscriber.next('')) }
+        const sections: Section[] = resp.parse.sections;
+        sectionId = sections.find(el => el.anchor == "Premios");
+        if (sectionId == undefined) sectionId = sections.find(el => el.anchor == "Premios_y_nominaciones");
+        if (sectionId == undefined) { return new Observable<string>(subscriber => subscriber.next('')) }
+        return this.runQuery<SectionResult>(`&page=${title}&section=${sectionId.index}&prop=text&formatversion=2`)
+          .pipe(map(res => res.parse.text));
+      }));
+    searchPage$.subscribe(console.log);
+    return searchPage$;
   }
-
-  getMovieAcademyAwards() {
-    // https://es.wikipedia.org/api/rest_v1/page/mobile-sections/Will Smith
-
-  }
-
-  getMovieGoldenGlobes() {
-    // https://es.wikipedia.org/api/rest_v1/page/mobile-sections/Will Smith
-
-  }
-
-  getTVShowAcademyAwards() {
-    // https://es.wikipedia.org/api/rest_v1/page/mobile-sections/Will Smith
-
-  }
-
-  getTVShowGoldenGlobes() {
-    // https://es.wikipedia.org/api/rest_v1/page/mobile-sections/Will Smith
-
-  }
-
 
 }

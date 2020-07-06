@@ -21,7 +21,7 @@ export class PersonDetailsComponent implements OnInit {
   year;
   hide = 250;
 
-  actorAcademyAwards;
+  actorAcademyAwards: string;
 
 
   slideOptCasting = {

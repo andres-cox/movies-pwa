@@ -25,7 +25,7 @@ export class MovieDetailsComponent implements OnInit {
   animationActors: string[] = [];
 
   streamProviders: Observable<Provider[]>;
-  actorAcademyAwards;
+  movieAcademyAwards: string;
 
   star = 'star-outline';
   checkMark = 'checkmark-circle-outline';
@@ -62,6 +62,9 @@ export class MovieDetailsComponent implements OnInit {
       this.animationGenre = this.movie.genres.some(genre => genre.name.toLowerCase() == 'animación');
       this.year = resp.release_date.split('-')[0];
       this.streamProviders = this.justwatchService.searchProviders(this.movie.title);
+      this.wikipediaService.getMovieAcademyAwards(this.movie.original_title).subscribe((res: string) => {
+        this.movieAcademyAwards = res;
+      });
     });
 
     this.moviesService.getMovieActors(this.id)
