@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ResultsJW, Offer, Provider, ProviderJW, MovieJWDetails, TVShowJWDetails } from '../interfaces/interfaces';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { ResultsJW, Offer, Provider, ProviderJW, MovieJWDetails, TVShowJWDetails } from '../interfaces/interfaces';
 
-const URL = 'https://apis.justwatch.com/content';
+const URL = environment.urljustwatch;
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,7 @@ export class JustwatchApiService {
   constructor(private http: HttpClient) { }
 
   private runQuery<T>(query: string) {
-    query = URL + query;
-    query += `/locale/${this.language}`
+    query = `${URL}/content${query}/locale/${this.language}`;
 
     return this.http.get<T>(query);
   }
@@ -56,7 +56,7 @@ export class JustwatchApiService {
 
     const body = { query: title, page: 1, page_size: 2 };
     const headers = new HttpHeaders().set('Content-type', 'application/json');
-    const query = this.http.post<ResultsJW>(`${URL}/titles/${this.language}/popular`, body, { headers }).pipe(map(res => {
+    const query = this.http.post<ResultsJW>(`${URL}/content/titles/${this.language}/popular`, body, { headers }).pipe(map(res => {
       const streamsAvailables: Offer[] = res.items[0].offers.filter(e => e.monetization_type == "flatrate" && e.presentation_type == "sd");
       const providersIndex: number[] = streamsAvailables.map(e => e.provider_id);
       return this.getProviders().filter(res => providersIndex.includes(res.id));

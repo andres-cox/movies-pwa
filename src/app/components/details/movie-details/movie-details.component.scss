@@ -5,6 +5,9 @@
     margin-bottom: -75px;
 }
 
+.backdrop-image{
+    width: 100%;
+}
 
 .title {
     width: 100%;
@@ -72,17 +75,15 @@ ion-button{
         cursor: default;
         color: white;
         text-decoration: none;
+        pointer-events: none;
     }
-    .references, .mw-editsection, .reference, .unsortable, p{
+    .references, .mw-editsection, .reference, .unsortable, .noprint, .toc, p{
         display: none;
     }
     
 }
 
-footer{
-    position: absolute;
-    bottom: 0;
-}
+
 
 @media screen and (min-width: 720px) { //lg screen
 

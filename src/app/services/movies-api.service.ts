@@ -6,7 +6,7 @@ import { StorageService } from './storage.service';
 import { catchError, map, tap, subscribeOn } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-const URL = environment.url;
+const URL = environment.urltmdb;
 const apiKey = environment.apiKey;
 
 @Injectable({

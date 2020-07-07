@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 import { DetailsComponent } from '../details.component';
 import { MovieDetails, ActorDetails, Provider } from 'src/app/interfaces/interfaces';
 import { StorageService } from 'src/app/services/storage.service';
 import { MoviesAPIService } from 'src/app/services/movies-api.service';
 import { JustwatchApiService } from 'src/app/services/justwatch-api.service';
 import { WikipediaApiService } from 'src/app/services/wikipedia-api.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-movie-details',
@@ -24,7 +24,7 @@ export class MovieDetailsComponent implements OnInit {
   animationGenre: boolean = false;
   animationActors: string[] = [];
 
-  streamProviders: Observable<Provider[]>;
+  streamProviders$: Observable<Provider[]>;
   movieAcademyAwards: string;
 
   star = 'star-outline';
@@ -61,8 +61,8 @@ export class MovieDetailsComponent implements OnInit {
       this.movie = resp;
       this.animationGenre = this.movie.genres.some(genre => genre.name.toLowerCase() == 'animación');
       this.year = resp.release_date.split('-')[0];
-      this.streamProviders = this.justwatchService.searchProviders(this.movie.title);
-      this.wikipediaService.getMovieAcademyAwards(this.movie.original_title).subscribe((res: string) => {
+      this.streamProviders$ = this.justwatchService.searchProviders(this.movie.title);
+      this.wikipediaService.getMovieAcademyAwards(this.movie.original_title, this.year, this.movie.title).subscribe((res: string) => {
         this.movieAcademyAwards = res;
       });
     });

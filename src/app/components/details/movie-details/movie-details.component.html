@@ -47,18 +47,34 @@
       </ion-chip>
     </ion-col>
   </ion-row>
+</ion-grid>
 
-
+<ion-grid *ngIf="!(streamProviders$ | async)" fixed>
   <ion-row>
     <ion-col>
+      <ion-chip *ngFor="let item of [0,0,0]" style="padding: 0;">
+        <ion-skeleton-text style="width: 80px; height: 100%; margin: 0; padding: 0;" animated>
+        </ion-skeleton-text>
+      </ion-chip>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-grid fixed *ngIf="streamProviders$ | async as providers">
+  <ion-row>
+    <ion-col *ngIf="providers.length != 0">
       <ion-label>Disponible en:</ion-label>
     </ion-col>
   </ion-row>
 
   <ion-row>
     <ion-col size="12">
-      <ion-chip *ngFor="let provider of streamProviders | async" [ngStyle]="{'background-color': provider.color}">
+      <ion-chip *ngFor="let provider of providers " [ngStyle]="{'background-color': provider.color}">
         <ion-label>{{ provider.clear_name }} </ion-label>
+      </ion-chip>
+      <ion-chip *ngIf="providers.length == undefined" style="padding: 0;">
+        <ion-skeleton-text style="width: 80px; height: 100%; margin: 0; padding: 0;" animated>
+        </ion-skeleton-text>
       </ion-chip>
     </ion-col>
   </ion-row>
@@ -91,29 +107,25 @@
   </ion-row>
 </ion-grid>
 
-<ion-footer no-border>
-  <ion-toolbar>
+<ion-toolbar class="footer">
+  <ion-buttons slot="start">
+    <ion-button (click)="back()">
+      <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
 
-    <ion-buttons slot="start">
-      <ion-button (click)="back()">
-        <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-
-    <ion-buttons slot="end">
-      <ion-button (click)="favorite()">
-        <ion-label>Favorito</ion-label>
-        <ion-icon slot="end" [name]="star"></ion-icon>
-      </ion-button>
-      <ion-button (click)="toWatch()">
-        <ion-label>Para Ver</ion-label>
-        <ion-icon slot="end" [name]="eye"></ion-icon>
-      </ion-button>
-      <ion-button (click)="seenMovie()">
-        <ion-label>Visto</ion-label>
-        <ion-icon slot="end" [name]="checkMark"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-
-  </ion-toolbar>
-</ion-footer>
+  <ion-buttons slot="end">
+    <ion-button (click)="favorite()">
+      <ion-label>Favorito</ion-label>
+      <ion-icon slot="end" [name]="star"></ion-icon>
+    </ion-button>
+    <ion-button (click)="toWatch()">
+      <ion-label>Para Ver</ion-label>
+      <ion-icon slot="end" [name]="eye"></ion-icon>
+    </ion-button>
+    <ion-button (click)="seenMovie()">
+      <ion-label>Visto</ion-label>
+      <ion-icon slot="end" [name]="checkMark"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>

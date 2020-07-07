@@ -41,8 +41,9 @@
         cursor: default;
         color: white;
         text-decoration: none;
+        pointer-events: none;
     }
-    .references, .mw-editsection, .reference, .unsortable, p{
+    .references, .mw-editsection, .reference, .unsortable, .noprint, .toc, p{
         display: none;
     }
     
