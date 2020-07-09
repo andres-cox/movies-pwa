@@ -50,10 +50,10 @@ export class WikipediaApiService {
   getMovieAcademyAwards(title: string, year: string, titleES: string): Observable<string> {
 
     const queries = [
+      `&page=Anexo:Premios_y_nominaciones_de_${title}_(película_de_${year})`,
       `&page=${title}`,
       `&page=${title}_(película)`,
       `&page=${title}_(película_de_${year})`,
-      `&page=Anexo:Premios_y_nominaciones_de_${title}_(película_de_${year})`,
       `&page=${titleES}`,
     ]
 

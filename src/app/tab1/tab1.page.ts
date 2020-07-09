@@ -17,12 +17,12 @@ export class Tab1Page implements OnInit {
 
   @ViewChild('searchBar') searchBar: IonSearchbar;
 
-  popularMovies: Observable<Movie[]>;
-  similarMovies = Array<Observable<Movie[]>>();
-  recommendationMovies = Array<Observable<Movie[]>>();
+  popularMovies$: Observable<Movie[]>;
+  similarMovies$ = Array<Observable<Movie[]>>();
+  recommendationMovies$ = Array<Observable<Movie[]>>();
 
-  popularTVShows: Observable<TVShow[]>;
-  netflixTVShows: Observable<TVShow[]>;
+  popularTVShows$: Observable<TVShow[]>;
+  netflixTVShows$: Observable<TVShow[]>;
   searching: boolean = false;
   darkMode: boolean = true;
   results = []; //Movie, TVShow, Actor
@@ -40,17 +40,16 @@ export class Tab1Page implements OnInit {
     private storageService: StorageService) { }
 
   async ngOnInit() {
+    this.popularMovies$ = this.moviesService.getPopularMovies();
 
-    this.popularMovies = this.moviesService.getPopularMovies();
+    this.popularTVShows$ = this.moviesService.getPopularTVShows();
 
-    this.popularTVShows = this.moviesService.getPopularTVShows();
-
-    this.netflixTVShows = this.moviesService.getNetflixTVShows()
+    this.netflixTVShows$ = this.moviesService.getNetflixTVShows()
 
     for (let i = 0; i < 3; i++) {
       this.randomFavoriteMovies[i] = await this.storageService.loadRandomFavoriteMovie();
-      this.recommendationMovies[i] = this.moviesService.getMovieRecommendations(this.randomFavoriteMovies[i].id.toString());
-      this.similarMovies[i] = this.moviesService.getMovieSimilar(this.randomFavoriteMovies[i].id.toString());
+      this.recommendationMovies$[i] = this.moviesService.getMovieRecommendations(this.randomFavoriteMovies[i].id.toString());
+      this.similarMovies$[i] = this.moviesService.getMovieSimilar(this.randomFavoriteMovies[i].id.toString());
     }
 
   }

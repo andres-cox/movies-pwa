@@ -70,15 +70,15 @@
 
       <ion-row>
         <ion-col>
-          <app-slides-poster mediaType="movie" [billboard]="popularMovies | async">
+          <app-slides-poster mediaType="movie" [billboard]="popularMovies$ | async">
           </app-slides-poster>
         </ion-col>
       </ion-row>
     </ion-grid>
 
-    <ion-grid fixed>
-      <div *ngFor="let favoriteMovie of randomFavoriteMovies; let i=index">
-        <ion-row>
+    <div *ngFor="let favoriteMovie of randomFavoriteMovies; let i=index">
+      <ion-grid fixed *ngIf="recommendationMovies$[i] | async as recomendations">
+        <ion-row *ngIf="recomendations.length != 0">
           <ion-col>
             <h3>Por que te gusto "{{favoriteMovie.title}}"</h3>
           </ion-col>
@@ -86,19 +86,19 @@
 
         <ion-row>
           <ion-col>
-            <app-slides-poster mediaType="movie" [billboard]="recommendationMovies[i] | async">
+            <app-slides-poster mediaType="movie" [billboard]="recommendationMovies$[i] | async">
             </app-slides-poster>
           </ion-col>
         </ion-row>
 
         <ion-row>
           <ion-col>
-            <app-slides-poster mediaType="movie" [billboard]="similarMovies[i] | async">
+            <app-slides-poster mediaType="movie" [billboard]="similarMovies$[i] | async">
             </app-slides-poster>
           </ion-col>
         </ion-row>
-      </div>
-    </ion-grid>
+      </ion-grid>
+    </div>
 
 
     <ion-grid fixed>
@@ -110,7 +110,7 @@
 
       <ion-row>
         <ion-col>
-          <app-slides-poster mediaType="tv" [billboard]="popularTVShows | async">
+          <app-slides-poster mediaType="tv" [billboard]="popularTVShows$ | async">
           </app-slides-poster>
         </ion-col>
       </ion-row>
@@ -126,7 +126,7 @@
 
       <ion-row>
         <ion-col>
-          <app-slides-poster mediaType="tv" [billboard]="netflixTVShows | async">
+          <app-slides-poster mediaType="tv" [billboard]="netflixTVShows$ | async">
           </app-slides-poster>
         </ion-col>
       </ion-row>

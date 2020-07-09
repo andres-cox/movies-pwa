@@ -55,11 +55,17 @@ export class JustwatchApiService {
   searchProviders(title: string): Observable<Provider[]> {
 
     const body = { query: title, page: 1, page_size: 2 };
-    const headers = new HttpHeaders().set('Content-type', 'application/json');
+    const headers = new HttpHeaders();
+    headers.append('Content-type', 'application/json');
+    headers.append('Access-Control-Allow-Origin', '*');
     const query = this.http.post<ResultsJW>(`${URL}/content/titles/${this.language}/popular`, body, { headers }).pipe(map(res => {
-      const streamsAvailables: Offer[] = res.items[0].offers.filter(e => e.monetization_type == "flatrate" && e.presentation_type == "sd");
-      const providersIndex: number[] = streamsAvailables.map(e => e.provider_id);
-      return this.getProviders().filter(res => providersIndex.includes(res.id));
+      if (res.items[0].title == title) {
+        const streamsAvailables: Offer[] = res.items[0].offers.filter(e => e.monetization_type == "flatrate" && e.presentation_type == "sd");
+        const providersIndex: number[] = streamsAvailables.map(e => e.provider_id);
+        return this.getProviders().filter(res => providersIndex.includes(res.id));
+      } else {
+        return [];
+      }
     }))
     return query;
 

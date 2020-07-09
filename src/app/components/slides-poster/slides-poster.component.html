@@ -9,7 +9,8 @@
 <ion-slides [options]="slideOpts">
   <ion-slide *ngFor="let item of billboard">
     <ion-card class="poster" mode="md" (click)="searchDetails( item.id )">
-      <img class="poster" [src]="item.poster_path | image">
+      <img class="poster" *ngIf="item.poster_path" [src]="item.poster_path | image">
+      <ion-label class="no-image" *ngIf="!item.poster_path">{{ item.title }}</ion-label>
     </ion-card>
   </ion-slide>
 
