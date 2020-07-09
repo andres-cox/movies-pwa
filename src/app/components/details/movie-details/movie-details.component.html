@@ -5,7 +5,7 @@
 <img class="backdrop-image" *ngIf="!movie.backdrop_path" src="/assets/no-image-banner.jpg">
 <img class="backdrop-image" *ngIf="movie.backdrop_path" [src]="movie.backdrop_path | image">
 
-<ion-grid>
+<ion-grid fixed>
   <ion-row>
     <ion-col size="4" class="poster-detail">
       <ion-card class="poster">
@@ -70,7 +70,7 @@
   <ion-row>
     <ion-col size="12">
       <ion-chip *ngFor="let provider of providers " [ngStyle]="{'background-color': provider.color}">
-        <ion-label>{{ provider.clear_name }} </ion-label>
+        <ion-label class="providers">{{ provider.clear_name }} </ion-label>
       </ion-chip>
       <ion-chip *ngIf="providers.length == undefined" style="padding: 0;">
         <ion-skeleton-text style="width: 80px; height: 100%; margin: 0; padding: 0;" animated>

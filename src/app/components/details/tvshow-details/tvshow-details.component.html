@@ -5,11 +5,13 @@
 <img class="backdrop-image" *ngIf="!tvshow.backdrop_path" src="/assets/no-image-banner.jpg">
 <img class="backdrop-image" *ngIf="tvshow.backdrop_path" [src]="tvshow.backdrop_path | image">
 
-<ion-grid>
+<ion-grid fixed>
   <ion-row>
     <ion-col size="4" class="poster-detail">
       <ion-card class="poster">
         <img [src]="tvshow.poster_path | image" class="poster" *ngIf="tvshow.poster_path">
+        <ion-skeleton-text *ngIf="tvshow.poster_path == undefined" style="width: 120px; height: 200px; margin: 0;"
+          animated></ion-skeleton-text>
       </ion-card>
     </ion-col>
     <ion-col>
@@ -32,6 +34,8 @@
   <ion-row>
     <ion-col size=12>
       <ion-label>{{ tvshow.overview }}</ion-label>
+      <ion-skeleton-text *ngIf="tvshow.poster_path == undefined" style="width: 100%; height: 150px;" animated>
+      </ion-skeleton-text>
     </ion-col>
   </ion-row>
 
