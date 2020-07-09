@@ -57,7 +57,8 @@ export class JustwatchApiService {
     const body = { query: title, page: 1, page_size: 2 };
     const headers = new HttpHeaders();
     headers.append('Content-type', 'application/json');
-    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Methods', 'POST');
+    headers.append('Access-Control-Allow-Origin', 'https://movies-pwa-6585e.firebaseapp.com');
     const query = this.http.post<ResultsJW>(`${URL}/content/titles/${this.language}/popular`, body, { headers }).pipe(map(res => {
       if (res.items[0].title == title) {
         const streamsAvailables: Offer[] = res.items[0].offers.filter(e => e.monetization_type == "flatrate" && e.presentation_type == "sd");

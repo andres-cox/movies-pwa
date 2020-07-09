@@ -61,7 +61,7 @@ export class MovieDetailsComponent implements OnInit {
       this.movie = resp;
       this.animationGenre = this.movie.genres.some(genre => genre.name.toLowerCase() == 'animación');
       this.year = resp.release_date.split('-')[0];
-      this.streamProviders$ = this.justwatchService.searchProviders(this.movie.title);
+      //this.streamProviders$ = this.justwatchService.searchProviders(this.movie.title);
       this.wikipediaService.getMovieAcademyAwards(this.movie.original_title, this.year, this.movie.title).subscribe((res: string) => {
         this.movieAcademyAwards = res;
       });

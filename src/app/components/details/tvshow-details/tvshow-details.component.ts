@@ -49,7 +49,7 @@ export class TvshowDetailsComponent implements OnInit {
       .subscribe(resp => {
         this.tvshow = resp;
         this.animationGenre = this.tvshow.genres.some(genre => genre.name.toLowerCase() == 'animación');
-        this.streamProviders = this.justwatchService.searchProviders(this.tvshow.name);
+        //this.streamProviders = this.justwatchService.searchProviders(this.tvshow.name);
       });
 
     this.moviesService.getTVShowActors(this.id)
